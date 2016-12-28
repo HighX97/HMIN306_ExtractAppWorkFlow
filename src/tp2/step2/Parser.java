@@ -22,6 +22,8 @@ import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.SuperMethodInvocation;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
+import graphe.* ;
+
 public class Parser {
 	
 	public final static String dir = System.getProperty("user.dir");
@@ -40,7 +42,8 @@ public class Parser {
 		for (File fileEntry : javaFiles) {
 			String content = FileUtils.readFileToString(fileEntry);
 			// System.out.println(content);
-
+			
+			
 			CompilationUnit parse = parse(content.toCharArray());
 
 			System.out.println("----------------------------"+fileEntry.getName()+"Methodes--------------------------");
@@ -107,18 +110,17 @@ public class Parser {
 		}
 
 	}
-	
-	// root method information
-		/*public static void printRootMethodInfo(CompilationUnit parse) {
-			MethodInvocationVisitor visitor = new MethodInvocationVisitor();
-			parse.accept(visitor);
-			List<SuperMethodInvocation> Parentmethods = visitor.getSuperMethod();
-			if (Parentmethods.isEmpty() {
-				System.out.println("Is root Method : " + method.getName()
-				+ " Return type: " + method.getReturnType2());
-			}
 
-		}*/
+	public static void initNodeMethod(CompilationUnit parse) {
+		MethodDeclarationVisitor visitor = new MethodDeclarationVisitor();
+		parse.accept(visitor);
+
+		for (MethodDeclaration method : visitor.getMethods()) {
+			System.out.println("Method name: " + method.getName()
+			+ " Return type: " + method.getReturnType2());
+		}
+
+	}
 
 	// navigate variables inside method
 	public static void printVariableInfo(CompilationUnit parse) {

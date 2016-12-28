@@ -15,13 +15,13 @@ public class Arete {
 	private static int count=0;
 
 	//Constructeur
-	Arete()
+	public Arete()
 	{
 		this.id=++count;
 //		System.out.println("Appel Constructeur Arete()");
 //		System.out.println(this);
 	}
-	Arete(int poidsArret, String labelArret)
+	public Arete(int poidsArret, String labelArret)
 	{
 		this();
 		this.poidsArret = poidsArret;
@@ -35,6 +35,14 @@ public class Arete {
 		this();
 		this.labelArret = sommetBegin.getNomSommet()+"-"+sommetEnd.getNomSommet();
 		this.poidsArret = poidsArret;
+		this.sommetBegin = sommetBegin;
+		this.sommetEnd = sommetEnd;
+	}
+	
+	public Arete(Sommet sommetBegin, Sommet sommetEnd) 
+	{
+		this();
+		this.labelArret = sommetBegin.getNomSommet()+"-->"+sommetEnd.getNomSommet();
 		this.sommetBegin = sommetBegin;
 		this.sommetEnd = sommetEnd;
 	}
