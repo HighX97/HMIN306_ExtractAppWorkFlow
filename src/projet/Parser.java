@@ -82,13 +82,13 @@ public class Parser {
 	}
 
 	// navigate method information
-	public static Graphe nodeMethodInfo(CompilationUnit parse,Graphe g) {
+	public static Graphe nodeMethodInfo(CompilationUnit parse,Graphe g, String className) {
 		MethodDeclarationVisitor visitor = new MethodDeclarationVisitor();
 		parse.accept(visitor);
 
 		for (MethodDeclaration method : visitor.getMethods())
 		{
-			g.addSommet(new Sommet("$$"+":"+(method.getName())));
+			g.addSommet(new Sommet(className+":"+(method.getName())));
 			System.out.println("Method name: " + method.getName()
 			+ " Return type: " + method.getReturnType2());
 		}
@@ -130,18 +130,40 @@ public class Parser {
 				for (MethodInvocation methodInvocation : visitor2.getMethods())
 				{
 					System.out.println("method " + method.getName() + " invoc method "
-							+ methodInvocation.getName());
-					System.out.println("&&&&&&&&&&");
-					System.out.println(method);
-					System.out.println(methodInvocation);
-					System.out.println("&&&&&&&&&&");
+							+ toStringMethdIn(methodInvocation));
+					System.out.println(toStringMethdIn(methodInvocation));
 
 				}
 
 			}
 		}
 
-		public static Graphe areteMethodInvocationInfo(CompilationUnit parse,Graphe g) {
+		public static String toStringMethdIn(MethodInvocation method )
+		{
+			String temp = new String(method.toString());
+			String[] parts = temp.split("\\.");
+			String result = "";
+			for (String retval: parts)
+			{
+				result +=retval+":";
+		    }
+			result = result.substring(0, result.length()-1);
+			System.out.println(result);
+			String[] parts2 = result.split("\\(");
+			System.out.println(parts2);
+			int i = 0 ;
+			for (String retval: parts2)
+			{
+				if (i++ == 0)
+				{
+					System.out.println(retval);
+					result =retval;
+				}			
+		    }
+			return result;
+		}
+
+		public static Graphe areteMethodInvocationInfo(CompilationUnit parse,Graphe g , String className) {
 
 			MethodDeclarationVisitor visitor1 = new MethodDeclarationVisitor();
 			parse.accept(visitor1);
@@ -155,10 +177,10 @@ public class Parser {
 				 * Issue to get class name from method
 				 */
 				for (MethodInvocation methodInvocation : visitor2.getMethods()) {
-					System.out.println("method " + method.getName()+ " invoc method "
-							+ methodInvocation.getName());
-					Sommet sommetBegin = sommets.get("$$"+":"+(method.getName()));
-					Sommet sommetEnd = sommets.get("$$"+":"+(methodInvocation.getName()));
+					System.out.println("method " + className+":"+(method.getName())+ " invoc method "
+							+ toStringMethdIn(methodInvocation));
+					Sommet sommetBegin = sommets.get(className+":"+(method.getName()));
+					Sommet sommetEnd = sommets.get(toStringMethdIn(methodInvocation));
 					g.addArete(new Arete(sommetBegin,sommetEnd));
 				}
 

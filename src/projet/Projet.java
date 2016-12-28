@@ -24,7 +24,7 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import graphe.*;
 
 public class Projet{
-	
+
 	public final static String dir = System.getProperty("user.dir");
 	public static final String projectPath = dir+"/../HMIN306_ExtractAppWorkFlow/";
 	public static final String projectSourcePath = projectPath + "/src/tp3/test";
@@ -51,11 +51,11 @@ public class Projet{
 			System.out.println("----------------------------"+className+"Methodes--------------------------");
 			// print methods info
 			//printMethodInfo(parse);
-			grapheInvocation = Parser.nodeMethodInfo(parse, grapheInvocation);
+			grapheInvocation = Parser.nodeMethodInfo(parse, grapheInvocation,className);
 
 			System.out.println("----------------------------"+className+"Variables--------------------------");
 			// print variables info
-			Parser.printVariableInfo(parse);
+			//Parser.printVariableInfo(parse);
 
 		}
 
@@ -70,8 +70,8 @@ public class Projet{
 
 			System.out.println("----------------------------"+className+"MethodInvocations--------------------------");
 			//print method invocations
-			Parser.printMethodInvocationInfo(parse);
-			grapheInvocation = Parser.areteMethodInvocationInfo(parse, grapheInvocation);
+			//Parser.printMethodInvocationInfo(parse);
+			grapheInvocation = Parser.areteMethodInvocationInfo(parse, grapheInvocation , className);
 
 		}
 	}
