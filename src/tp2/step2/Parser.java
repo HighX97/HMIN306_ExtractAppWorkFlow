@@ -41,12 +41,15 @@ public class Parser {
 
 			CompilationUnit parse = parse(content.toCharArray());
 
+			System.out.println("----------------------------"+fileEntry.getName()+"Methodes--------------------------");
 			// print methods info
 			printMethodInfo(parse);
-
+			
+			System.out.println("----------------------------"+fileEntry.getName()+"Variables--------------------------");
 			// print variables info
 			printVariableInfo(parse);
 			
+			System.out.println("----------------------------"+fileEntry.getName()+"MethodInvocations--------------------------");
 			//print method invocations
 			printMethodInvocationInfo(parse);
 
@@ -97,7 +100,7 @@ public class Parser {
 
 		for (MethodDeclaration method : visitor.getMethods()) {
 			System.out.println("Method name: " + method.getName()
-					+ " Return type: " + method.getReturnType2());
+			+ " Return type: " + method.getReturnType2());
 		}
 
 	}

@@ -39,7 +39,7 @@ public class Parser {
 		//
 		for (File fileEntry : javaFiles) {
 			String content = FileUtils.readFileToString(fileEntry);
-			 System.out.println(content);
+		
 
 			CompilationUnit parse = parse(content.toCharArray());
 
