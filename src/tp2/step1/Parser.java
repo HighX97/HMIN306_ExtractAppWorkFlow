@@ -21,7 +21,7 @@ public class Parser {
 	
 	
 	public final static String dir = System.getProperty("user.dir");
-	public static final String projectPath = dir+"/../HMIN304_TP_1_2/";
+	public static final String projectPath = dir+"/../HMIN306_ExtractAppWorkFlow/";
 	public static final String projectSourcePath = projectPath + "/src";
 	//public static final String jrePath = "/usr/share/java";
 	public static final String jrePath = "";
