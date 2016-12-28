@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/HMIN306_Evolution_Restructuration/03_AnalyseDynamique_Spoon/spoon-core-5.3.0-jar-with-dependencies.jar"/>
 	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/HMIN306_Evolution_Restructuration/02_AnalyseStatique/TP/ast libs/commons-io-2.4.jar"/>
 	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/HMIN306_Evolution_Restructuration/02_AnalyseStatique/TP/ast libs/org.eclipse.core.contenttype_3.4.200.v20130326-1255.jar"/>
 	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/HMIN306_Evolution_Restructuration/02_AnalyseStatique/TP/ast libs/org.eclipse.core.jobs_3.5.300.v20130429-1813.jar"/>
@@ -13,7 +14,5 @@
 	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/HMIN306_Evolution_Restructuration/02_AnalyseStatique/TP/ast libs/org.eclipse.jdt.core_3.9.2.v20140114-1555.jar"/>
 	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/HMIN306_Evolution_Restructuration/02_AnalyseStatique/TP/ast libs/org.eclipse.jface.text_3.8.101.v20130802-1147.jar"/>
 	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/HMIN306_Evolution_Restructuration/02_AnalyseStatique/TP/ast libs/org.eclipse.osgi_3.9.1.v20140110-1610.jar"/>
-	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/HMIN306_Evolution_Restructuration/03_AnalyseDynamique_Spoon/spoon-core-5.3.0-jar-with-dependencies.jar"/>
-	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/HMIN306_Evolution_Restructuration/03_AnalyseDynamique_Spoon/spoon-core-5.3.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
