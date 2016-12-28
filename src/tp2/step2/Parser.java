@@ -20,6 +20,8 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
+import graphe.* ;
+
 public class Parser {
 	
 	public final static String dir = System.getProperty("user.dir");
@@ -38,7 +40,8 @@ public class Parser {
 		for (File fileEntry : javaFiles) {
 			String content = FileUtils.readFileToString(fileEntry);
 			// System.out.println(content);
-
+			
+			
 			CompilationUnit parse = parse(content.toCharArray());
 
 			System.out.println("----------------------------"+fileEntry.getName()+"Methodes--------------------------");
@@ -95,6 +98,17 @@ public class Parser {
 
 	// navigate method information
 	public static void printMethodInfo(CompilationUnit parse) {
+		MethodDeclarationVisitor visitor = new MethodDeclarationVisitor();
+		parse.accept(visitor);
+
+		for (MethodDeclaration method : visitor.getMethods()) {
+			System.out.println("Method name: " + method.getName()
+			+ " Return type: " + method.getReturnType2());
+		}
+
+	}
+	
+	public static void initNodeMethod(CompilationUnit parse) {
 		MethodDeclarationVisitor visitor = new MethodDeclarationVisitor();
 		parse.accept(visitor);
 

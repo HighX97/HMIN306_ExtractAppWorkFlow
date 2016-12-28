@@ -1,6 +1,7 @@
 //@Author Ismail Alaoui
 package graphe;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,13 +17,21 @@ public class Sommet {
 	private static int count=0;
 
 	//Constructeur
-	Sommet()
+	public Sommet()
 	{
 		this.setId(++count);
+		this.aretesEntrantes = new ArrayList<Arete>();
+		this.aretesSortantes = new ArrayList<Arete>();
 //		System.out.println("Appel Constructeur Sommet()");
 	}
+	
+	public Sommet(String nomSommet)
+	{
+		this();
+		this.nomSommet = nomSommet;
+	}
 
-	Sommet(int numSommet, String nomSommet, List<Arete> aretesEntrantes, List<Arete> aretesSortantes)
+	public Sommet(int numSommet, String nomSommet, List<Arete> aretesEntrantes, List<Arete> aretesSortantes)
 	{
 		this();
 		this.numSommet = numSommet;
