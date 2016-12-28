@@ -24,7 +24,7 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import graphe.*;
 
 public class Parser {
-	
+
 	public final static String dir = System.getProperty("user.dir");
 	public static final String projectPath = dir+"/../HMIN306_ExtractAppWorkFlow/";
 	public static final String projectSourcePath = projectPath + "/src/tp3/test";
@@ -36,6 +36,7 @@ public class Parser {
 		// read java files
 		final File folder = new File(projectSourcePath);
 		ArrayList<File> javaFiles = listJavaFilesForFolder(folder);
+		Graphe grapheInvocation = new Graphe();
 
 		//
 		for (File fileEntry : javaFiles) {
@@ -43,23 +44,34 @@ public class Parser {
 			// System.out.println(content);
 			String  fileName = fileEntry.getName();
 			String  className = fileName.substring(0, fileName.length() - 5);
-			Graphe grapheInvocation = new Graphe();
-			
+
+
 			CompilationUnit parse = parse(content.toCharArray());
 
 			System.out.println("----------------------------"+className+"Methodes--------------------------");
 			// print methods info
-			printMethodInfo(parse);
-			grapheInvocation = nodeMethodInfo(parse, grapheInvocation ,className);
-			
+			//printMethodInfo(parse);
+			grapheInvocation = nodeMethodInfo(parse, grapheInvocation);
+
 			System.out.println("----------------------------"+className+"Variables--------------------------");
 			// print variables info
 			printVariableInfo(parse);
-			
+
+		}
+
+		for (File fileEntry : javaFiles) {
+			String content = FileUtils.readFileToString(fileEntry);
+			// System.out.println(content);
+			String  fileName = fileEntry.getName();
+			String  className = fileName.substring(0, fileName.length() - 5);
+
+
+			CompilationUnit parse = parse(content.toCharArray());
+
 			System.out.println("----------------------------"+className+"MethodInvocations--------------------------");
 			//print method invocations
 			printMethodInvocationInfo(parse);
-			grapheInvocation = areteMethodInvocationInfo(parse, grapheInvocation ,className);
+			grapheInvocation = areteMethodInvocationInfo(parse, grapheInvocation);
 
 		}
 	}
@@ -84,20 +96,20 @@ public class Parser {
 		ASTParser parser = ASTParser.newParser(AST.JLS4); // java +1.6
 		parser.setResolveBindings(true);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
- 
+
 		parser.setBindingsRecovery(true);
- 
+
 		Map options = JavaCore.getOptions();
 		parser.setCompilerOptions(options);
- 
+
 		parser.setUnitName("");
- 
-		String[] sources = { projectSourcePath }; 
+
+		String[] sources = { projectSourcePath };
 		String[] classpath = {jrePath};
- 
+
 		parser.setEnvironment(classpath, sources, new String[] { "UTF-8"}, true);
 		parser.setSource(classSource);
-		
+
 		return (CompilationUnit) parser.createAST(null); // create and parse
 	}
 
@@ -112,15 +124,15 @@ public class Parser {
 		}
 
 	}
-	
+
 	// navigate method information
-	public static Graphe nodeMethodInfo(CompilationUnit parse,Graphe g , String className) {
+	public static Graphe nodeMethodInfo(CompilationUnit parse,Graphe g) {
 		MethodDeclarationVisitor visitor = new MethodDeclarationVisitor();
 		parse.accept(visitor);
 
-		for (MethodDeclaration method : visitor.getMethods()) 
+		for (MethodDeclaration method : visitor.getMethods())
 		{
-			g.addSommet(new Sommet(className+":"+(method.getName())));
+			g.addSommet(new Sommet("methodeClass"+":"+(method.getName())));
 			System.out.println("Method name: " + method.getName()
 			+ " Return type: " + method.getReturnType2());
 		}
@@ -148,7 +160,7 @@ public class Parser {
 
 		}
 	}
-	
+
 	// navigate method invocations inside method
 		public static void printMethodInvocationInfo(CompilationUnit parse) {
 
@@ -159,15 +171,21 @@ public class Parser {
 				MethodInvocationVisitor visitor2 = new MethodInvocationVisitor();
 				method.accept(visitor2);
 
-				for (MethodInvocation methodInvocation : visitor2.getMethods()) {
+				for (MethodInvocation methodInvocation : visitor2.getMethods())
+				{
 					System.out.println("method " + method.getName() + " invoc method "
 							+ methodInvocation.getName());
+					System.out.println("&&&&&&&&&&");
+					System.out.println(method);
+					System.out.println(methodInvocation);
+					System.out.println("&&&&&&&&&&");
+
 				}
 
 			}
 		}
-		
-		public static Graphe areteMethodInvocationInfo(CompilationUnit parse,Graphe g , String className) {
+
+		public static Graphe areteMethodInvocationInfo(CompilationUnit parse,Graphe g) {
 
 			MethodDeclarationVisitor visitor1 = new MethodDeclarationVisitor();
 			parse.accept(visitor1);
@@ -177,16 +195,19 @@ public class Parser {
 				MethodInvocationVisitor visitor2 = new MethodInvocationVisitor();
 				method.accept(visitor2);
 
+				/*
+				 * Issue to get class name from method
+				 */
 				for (MethodInvocation methodInvocation : visitor2.getMethods()) {
-					System.out.println("method " + method.getName() + " invoc method "
+					System.out.println("method " + method.getName()+ " invoc method "
 							+ methodInvocation.getName());
-					Sommet sommetBegin = sommets.get(className+":"+(method.getName()));
-					Sommet sommetEnd = sommets.get(className+":"+(methodInvocation.getName()));
+					Sommet sommetBegin = sommets.get("methodeClass"+":"+(method.getName()));
+					Sommet sommetEnd = sommets.get("methodeClass"+":"+(methodInvocation.getName()));
 					g.addArete(new Arete(sommetBegin,sommetEnd));
 				}
 
 			}
-			
+
 			return g;
 		}
 
