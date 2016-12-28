@@ -3,6 +3,7 @@ package tp2.step2;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
@@ -18,6 +19,7 @@ import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
+import org.eclipse.jdt.core.dom.SuperMethodInvocation;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 public class Parser {
@@ -100,10 +102,23 @@ public class Parser {
 
 		for (MethodDeclaration method : visitor.getMethods()) {
 			System.out.println("Method name: " + method.getName()
-			+ " Return type: " + method.getReturnType2());
+			+ " Return type: " + method.getReturnType2() + " parameters ="+ method.parameters()
+			+ " root ="+method.getRoot());
 		}
 
 	}
+	
+	// root method information
+		/*public static void printRootMethodInfo(CompilationUnit parse) {
+			MethodInvocationVisitor visitor = new MethodInvocationVisitor();
+			parse.accept(visitor);
+			List<SuperMethodInvocation> Parentmethods = visitor.getSuperMethod();
+			if (Parentmethods.isEmpty() {
+				System.out.println("Is root Method : " + method.getName()
+				+ " Return type: " + method.getReturnType2());
+			}
+
+		}*/
 
 	// navigate variables inside method
 	public static void printVariableInfo(CompilationUnit parse) {
