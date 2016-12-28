@@ -12,9 +12,6 @@ public class Sommet {
 	private String nomSommet;
 	private List<Arete> aretesEntrantes;
 	private List<Arete> aretesSortantes;
-	private int degreEntrant;
-	private int degreSortant;
-	private Map<Sommet, Chemin> chemins;
 	
 	private static int count=0;
 
@@ -22,7 +19,6 @@ public class Sommet {
 	Sommet()
 	{
 		this.setId(++count);
-		this.chemins = new HashMap<Sommet, Chemin>();
 //		System.out.println("Appel Constructeur Sommet()");
 	}
 
@@ -33,8 +29,6 @@ public class Sommet {
 		this.nomSommet = nomSommet;
 		this.aretesEntrantes = aretesEntrantes;
 		this.aretesSortantes = aretesSortantes;
-		this.degreEntrant = aretesEntrantes.size();
-		this.degreSortant = aretesSortantes.size();
 //		System.out.println("Appel Constructeur (int numSommet, String nomSommet, List<Arete> aretesEntrantes, List<Arete> aretesSortantes)");
 	}
 	//Accesseur  & Muttaeurs
@@ -62,27 +56,15 @@ public class Sommet {
 	public void setAretesSortantes(List<Arete> aretesSortantes) {
 		this.aretesSortantes = aretesSortantes;
 	}
-	public int getDegreEntrant() {
-		return degreEntrant;
-	}
-	public void setDegreEntrant(int degreEntrant) {
-		this.degreEntrant = degreEntrant;
-	}
-	public int getDegreSortant() {
-		return degreSortant;
-	}
-	public void setDegreSortant(int degreSortant) {
-		this.degreSortant = degreSortant;
-	}
-
+	
 	//Methodes
 
 		public String toString()
 		{
 			String string="(nom Sommet:" + this.getNomSommet()
 					+ ", num Sommet:" + this.getNumSommet()
-					+ ", degré entrant:" + this.getDegreEntrant()
-					+ ", degré sortant:" + this.getDegreSortant()
+					+ ", degré entrant:" + this.getAretesEntrantes().size()
+					+ ", degré sortant:" + this.getAretesSortantes().size()
 					+")";
 			return string;
 		}
@@ -95,30 +77,7 @@ public class Sommet {
 			this.id = id;
 		}
 
-		public Map<Sommet, Chemin> getChemins() {
-			return chemins;
-		}
-
-		public void setChemins(Map<Sommet, Chemin> chemins) {
-			this.chemins = chemins;
-		}
-
-		public void setCheminSommet(Sommet s, Chemin chemin) {
-			if(this.chemins.get(s) ==null)
-			{
-				this.chemins.put(s, chemin);
-			}
-			else
-			{
-				this.chemins.replace(s, chemin);
-			}
-			
-		}
-
-		public Chemin getCheminsSommet(Sommet s) 
-		{
-			return this.chemins.get(s);
-		}
+		
 
 
 }

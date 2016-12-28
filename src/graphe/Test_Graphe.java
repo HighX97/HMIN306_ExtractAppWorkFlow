@@ -179,7 +179,7 @@ public class Test_Graphe {
 		
 		
 		Graphe g2 = new Graphe("Graphe Vol Europe",sommets,aretes);
-		g2.algo_Dijkstra(s1);
+		
 	}
 
 }
