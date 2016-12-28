@@ -88,7 +88,7 @@ public class Parser {
 
 		for (MethodDeclaration method : visitor.getMethods())
 		{
-			g.addSommet(new Sommet("methodeClass"+":"+(method.getName())));
+			g.addSommet(new Sommet("mC"+":"+(method.getName())));
 			System.out.println("Method name: " + method.getName()
 			+ " Return type: " + method.getReturnType2());
 		}
@@ -157,8 +157,8 @@ public class Parser {
 				for (MethodInvocation methodInvocation : visitor2.getMethods()) {
 					System.out.println("method " + method.getName()+ " invoc method "
 							+ methodInvocation.getName());
-					Sommet sommetBegin = sommets.get("methodeClass"+":"+(method.getName()));
-					Sommet sommetEnd = sommets.get("methodeClass"+":"+(methodInvocation.getName()));
+					Sommet sommetBegin = sommets.get("mC"+":"+(method.getName()));
+					Sommet sommetEnd = sommets.get("mC"+":"+(methodInvocation.getName()));
 					g.addArete(new Arete(sommetBegin,sommetEnd));
 				}
 
