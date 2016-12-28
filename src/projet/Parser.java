@@ -31,50 +31,6 @@ public class Parser {
 	//public static final String jrePath = "/usr/share/java";
 	public static final String jrePath = "";
 
-	public static void main(String[] args) throws IOException {
-
-		// read java files
-		final File folder = new File(projectSourcePath);
-		ArrayList<File> javaFiles = listJavaFilesForFolder(folder);
-		Graphe grapheInvocation = new Graphe();
-
-		//
-		for (File fileEntry : javaFiles) {
-			String content = FileUtils.readFileToString(fileEntry);
-			// System.out.println(content);
-			String  fileName = fileEntry.getName();
-			String  className = fileName.substring(0, fileName.length() - 5);
-
-
-			CompilationUnit parse = parse(content.toCharArray());
-
-			System.out.println("----------------------------"+className+"Methodes--------------------------");
-			// print methods info
-			//printMethodInfo(parse);
-			grapheInvocation = nodeMethodInfo(parse, grapheInvocation);
-
-			System.out.println("----------------------------"+className+"Variables--------------------------");
-			// print variables info
-			printVariableInfo(parse);
-
-		}
-
-		for (File fileEntry : javaFiles) {
-			String content = FileUtils.readFileToString(fileEntry);
-			// System.out.println(content);
-			String  fileName = fileEntry.getName();
-			String  className = fileName.substring(0, fileName.length() - 5);
-
-
-			CompilationUnit parse = parse(content.toCharArray());
-
-			System.out.println("----------------------------"+className+"MethodInvocations--------------------------");
-			//print method invocations
-			printMethodInvocationInfo(parse);
-			grapheInvocation = areteMethodInvocationInfo(parse, grapheInvocation);
-
-		}
-	}
 
 	// read all java files from specific folder
 	public static ArrayList<File> listJavaFilesForFolder(final File folder) {
@@ -92,7 +48,7 @@ public class Parser {
 	}
 
 	// create AST
-	private static CompilationUnit parse(char[] classSource) {
+	static CompilationUnit parse(char[] classSource) {
 		ASTParser parser = ASTParser.newParser(AST.JLS4); // java +1.6
 		parser.setResolveBindings(true);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);

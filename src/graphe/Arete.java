@@ -81,10 +81,8 @@ public class Arete {
 
 	public String toString()
 	{
-		String string="labelArret:" + this.getLabelArret()
-				+ ",poidsArret:" + this.getPoidsArret()
-				+ ",sommetBegin:" + this.getSommetBegin().getNomSommet()
-				+ ",sommetEnd:" + this.getSommetEnd().getNomSommet()
+		String string=this.getSommetBegin().getNomSommet()
+				+ "--->" + this.getSommetEnd().getNomSommet()
 				;
 		return string;
 	}
