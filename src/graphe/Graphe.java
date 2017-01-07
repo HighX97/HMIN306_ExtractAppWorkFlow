@@ -61,7 +61,7 @@ public class Graphe {
 
 	public void addArete(Arete aretes) {
 		this.aretes.add(aretes);
-		//System.out.println(this.aretes);
+		System.out.println(this.aretes);
 	}
 
 	public String getNomGraphe() {
@@ -80,6 +80,30 @@ public class Graphe {
 				+ "\n\tnombre de sommets:" + this.getSommets().size()
 				+ "\n\tnombre d'aretes:" + this.getAretes().size();
 		return string;
+	}
+	public Map<String ,Sommet> getTaches() 
+	{
+		Map<String ,Sommet> out =  new HashMap<String ,Sommet>();
+		for (Map.Entry<String, Sommet> entry : this.sommets.entrySet())
+		{		    int i=0;
+		    int n =this.aretes.size();
+		    for (Arete a : this.aretes)
+		    {
+		    	i++;
+		    	if (a.getSommetBegin().getNomSommet().equalsIgnoreCase(entry.getKey()))
+		    	{
+		    		System.out.println("NO "+entry.getKey());
+		    		break;
+		    	}
+		    }
+		    if (i==n)
+		    {
+	    		System.out.println("YES "+entry.getKey());
+
+		    	out.put(entry.getKey(),entry.getValue());
+		    }
+		}
+		return out;
 	}
 
 
