@@ -23,7 +23,8 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 import graphe.*;
 
-public class Projet{
+public class Projet
+{
 
 	public final static String dir = System.getProperty("user.dir");
 	public static final String projectPath = dir+"/../HMIN306_ExtractAppWorkFlow/";
@@ -55,7 +56,7 @@ public class Projet{
 
 			System.out.println("----------------------------"+className+"Variables--------------------------");
 			// print variables info
-			//Parser.printVariableInfo(parse);
+			Parser.printVariableInfo(parse);
 
 		}
 

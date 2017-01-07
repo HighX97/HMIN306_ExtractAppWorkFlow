@@ -21,6 +21,9 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
+import astvisitor.MethodDeclarationVisitor;
+import astvisitor.MethodInvocationVisitor;
+import astvisitor.VariableDeclarationFragmentVisitor;
 import graphe.*;
 
 public class Parser {
@@ -89,8 +92,10 @@ public class Parser {
 		for (MethodDeclaration method : visitor.getMethods())
 		{
 			g.addSommet(new Sommet(className+":"+(method.getName())));
+			/*
 			System.out.println("Method name: " + method.getName()
 			+ " Return type: " + method.getReturnType2());
+			*/
 		}
 		return g;
 
@@ -118,7 +123,7 @@ public class Parser {
 	}
 
 	// navigate method invocations inside method
-		public static void printMethodInvocationInfo(CompilationUnit parse) {
+		public static void printMethodInvocationInfo(CompilationUnit parse , String className) {
 
 			MethodDeclarationVisitor visitor1 = new MethodDeclarationVisitor();
 			parse.accept(visitor1);
@@ -130,37 +135,41 @@ public class Parser {
 				for (MethodInvocation methodInvocation : visitor2.getMethods())
 				{
 					System.out.println("method " + method.getName() + " invoc method "
-							+ toStringMethdIn(methodInvocation));
-					System.out.println(toStringMethdIn(methodInvocation));
+							+ toStringMethdIn(methodInvocation,className));
+					System.out.println(toStringMethdIn(methodInvocation,className));
 
 				}
 
 			}
 		}
 
-		public static String toStringMethdIn(MethodInvocation method )
+		public static String toStringMethdIn(MethodInvocation method , String className)
 		{
-			String temp = new String(method.toString());
-			String[] parts = temp.split("\\.");
+			System.out.println(method);
 			String result = "";
-			for (String retval: parts)
+
+			if (method.getExpression().toString().equalsIgnoreCase("this"))
 			{
-				result +=retval+":";
-		    }
-			result = result.substring(0, result.length()-1);
+				System.out.println("this");
+				result = className +":"+method.getName();
+			}
+			else
+			{
+				result = method.getExpression()+":"+method.getName();
+			}
 			System.out.println(result);
-			String[] parts2 = result.split("\\(");
-			System.out.println(parts2);
-			int i = 0 ;
-			for (String retval: parts2)
-			{
-				if (i++ == 0)
-				{
-					System.out.println(retval);
-					result =retval;
-				}			
-		    }
 			return result;
+
+		}
+
+		public static String toStringMethdIn(MethodDeclaration method , String className)
+		{
+			System.out.println(method);
+			String result = "";
+			result = className +":"+method.getName();
+			System.out.println(result);
+			return result;
+
 		}
 
 		public static Graphe areteMethodInvocationInfo(CompilationUnit parse,Graphe g , String className) {
@@ -177,10 +186,12 @@ public class Parser {
 				 * Issue to get class name from method
 				 */
 				for (MethodInvocation methodInvocation : visitor2.getMethods()) {
-					System.out.println("method " + className+":"+(method.getName())+ " invoc method "
-							+ toStringMethdIn(methodInvocation));
-					Sommet sommetBegin = sommets.get(className+":"+(method.getName()));
-					Sommet sommetEnd = sommets.get(toStringMethdIn(methodInvocation));
+
+					System.out.println("method " + toStringMethdIn(method,className) + " invoc method "
+							+ toStringMethdIn(methodInvocation,className));
+
+					Sommet sommetBegin = sommets.get(toStringMethdIn(method,className));
+					Sommet sommetEnd = sommets.get(toStringMethdIn(methodInvocation,className));
 					g.addArete(new Arete(sommetBegin,sommetEnd));
 				}
 

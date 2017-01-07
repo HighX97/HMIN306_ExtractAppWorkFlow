@@ -61,7 +61,7 @@ public class Graphe {
 
 	public void addArete(Arete aretes) {
 		this.aretes.add(aretes);
-		System.out.println(this.aretes);
+		//System.out.println(this.aretes);
 	}
 
 	public String getNomGraphe() {
