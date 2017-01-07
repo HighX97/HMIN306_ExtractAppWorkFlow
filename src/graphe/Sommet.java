@@ -70,11 +70,14 @@ public class Sommet {
 
 		public String toString()
 		{
-			String string="(nom Sommet:" + this.getNomSommet()
+			String string= this.getNomSommet();
+					/*
+					 * "(nom Sommet:" + this.getNomSommet()
 					+ ", num Sommet:" + this.getNumSommet()
 					+ ", degré entrant:" + this.getAretesEntrantes().size()
 					+ ", degré sortant:" + this.getAretesSortantes().size()
 					+")";
+					*/
 			return string;
 		}
 

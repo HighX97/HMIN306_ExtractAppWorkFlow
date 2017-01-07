@@ -73,8 +73,13 @@ public class Projet
 			//print method invocations
 			//Parser.printMethodInvocationInfo(parse);
 			grapheInvocation = Parser.areteMethodInvocationInfo(parse, grapheInvocation , className);
-
 		}
+		
+		System.out.println(grapheInvocation.getSommets());
+		System.out.println(grapheInvocation.getAretes());
+		System.out.println(grapheInvocation.getTaches());
+		//System.out.println(grapheInvocation.getTachesComposites());
+		System.out.println(grapheInvocation.getPointEntree());
 	}
 
 }
