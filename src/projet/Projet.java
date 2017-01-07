@@ -78,6 +78,8 @@ public class Projet
 		System.out.println(grapheInvocation.getSommets());
 		System.out.println(grapheInvocation.getAretes());
 		System.out.println(grapheInvocation.getTaches());
+		//System.out.println(grapheInvocation.getTachesComposites());
+		System.out.println(grapheInvocation.getPointEntree());
 	}
 
 }
