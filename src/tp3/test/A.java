@@ -2,6 +2,7 @@ package tp3.test;
 
 public class A {
 
+	A a = new A();
 	public static String mA1(int i, String s, boolean b){
 		return i+s+b;
 	};
@@ -32,6 +33,22 @@ return i+s+b+this.mAA3(i, s,b)+i+s+b+this.mAA2(i, s,b)+i+s+b+this.mAA1(i, s,b);
 };
 public String mAA5(int i, String s, boolean b){
 return i+s+b+this.mAA4(i, s,b)+i+s+b+this.mAA3(i, s,b)+i+s+b+this.mAA2(i, s,b)+i+s+b+this.mAA1(i, s,b);
+};
+
+public String mAAA1(int i, String s, boolean b){
+	return i+s+b;
+};
+public String mAAA2(int i, String s, boolean b){
+	return i+s+b+a.mAAA1(i, s,b);
+};
+public String mAAA3(int i, String s, boolean b){
+return i+s+b+a.mAAA2(i, s,b)+i+s+b+a.mAAA1(i, s,b);
+};
+public String mAAA4(int i, String s, boolean b){
+return i+s+b+a.mAAA3(i, s,b)+i+s+b+a.mAAA2(i, s,b)+i+s+b+a.mAAA1(i, s,b);
+};
+public String mAAA5(int i, String s, boolean b){
+return i+s+b+a.mAAA4(i, s,b)+i+s+b+a.mAAA3(i, s,b)+i+s+b+a.mAAA2(i, s,b)+i+s+b+a.mAAA1(i, s,b);
 };
 
 }

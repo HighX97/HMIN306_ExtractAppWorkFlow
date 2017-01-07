@@ -17,6 +17,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
@@ -155,9 +156,19 @@ public class Parser {
 			}
 			else
 			{
-				result = method.getExpression()+":"+method.getName();
+				ITypeBinding typeBinding = method.getExpression().resolveTypeBinding();
+                if (typeBinding != null) {
+                    System.out.println("Type: " + typeBinding.getName());
+                	result = typeBinding.getName()+":"+method.getName();
+                }
+                else
+                {
+        			result = method.getExpression()+":"+method.getName();
+                }
+				//System.out.println("blabla ="+method.getExpression().resolveTypeBinding().getDeclaringMethod().getName());
+	
 			}
-			System.out.println(result);
+			//System.out.println(result);
 			return result;
 
 		}
