@@ -28,13 +28,13 @@ public String mAA2(int i, String s, boolean b){
 public String mAA3(int i, String s, boolean b){
 return i+s+b+ mAA2(i, s,b)+i+s+b+ mAA1(i, s,b);
 };
-public String mAA4(int i, String s, boolean b){
+public String mAA4(int i, String s, boolean b,B pb){
 return i+s+b+ mAA3(i, s,b)+i+s+b+ mAA2(i, s,b)+i+s+b+ mAA1(i, s,b);
 };
 public String mAA5(int i, String s, boolean b){
-return i+s+b+ mAA4(i, s,b)+i+s+b+ mAA3(i, s,b)+i+s+b+ mAA2(i, s,b)+i+s+b+ mAA1(i, s,b);
+return i+s+b+ mAA4(i, s,b, new B())+i+s+b+ mAA3(i, s,b)+i+s+b+ mAA2(i, s,b)+i+s+b+ mAA1(i, s,b);
 };
-
+/*
 public String mAAA1(int i, String s, boolean b){
 	return i+s+b;
 };
@@ -50,5 +50,5 @@ return i+s+b+a.mAAA3(i, s,b)+i+s+b+a.mAAA2(i, s,b)+i+s+b+a.mAAA1(i, s,b);
 public String mAAA5(int i, String s, boolean b){
 return i+s+b+a.mAAA4(i, s,b)+i+s+b+a.mAAA3(i, s,b)+i+s+b+a.mAAA2(i, s,b)+i+s+b+a.mAAA1(i, s,b);
 };
-
+*/
 }

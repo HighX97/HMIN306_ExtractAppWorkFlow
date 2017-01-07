@@ -79,9 +79,10 @@ public class Projet
 		
 		System.out.println(grapheInvocation.getSommets());
 		System.out.println(grapheInvocation.getAretes());
-		System.out.println("Tâches :"+grapheInvocation.getTaches());
+		System.out.println("Taches :"+grapheInvocation.getTaches());
 		for (Map.Entry<String, Sommet> entry : grapheInvocation.getTaches().entrySet())
 		{
+			System.out.println(entry.getKey()+" Tache :");
 			System.out.println(entry.getKey()+" Tache :");
 			System.out.println("Parents : "+entry.getValue().getParents());
 			System.out.println("Childs : "+entry.getValue().getChilds());

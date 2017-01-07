@@ -14,13 +14,13 @@ public class ABC {
 		A.mA4(1,"",true);
 		A.mA5(1,"",true);
 
-/*
+
 		a.mAA1(1,"",true);
 		a.mAA2(1,"",true);
 		a.mAA3(1,"",true);
-		a.mAA4(1,"",true);
+		//a.mAA4(1,"",true);
 		a.mAA5(1,"",true);
-		*/
+		
 
 		B.mB1(1,"",true);
 		B.mB2(1,"",true);

@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jdt.core.dom.MethodDeclaration;
+
 public class Sommet {
 	//Atributs
 	private int id;
@@ -13,6 +15,7 @@ public class Sommet {
 	private String nomSommet;
 	private List<Arete> aretesEntrantes;
 	private List<Arete> aretesSortantes;
+	
 	protected Graphe graphe;
 	
 	private static int count=0;
@@ -23,7 +26,7 @@ public class Sommet {
 		this.setId(++count);
 		this.aretesEntrantes = new ArrayList<Arete>();
 		this.aretesSortantes = new ArrayList<Arete>();
-//		System.out.println("Appel Constructeur Sommet()");
+		//System.out.println("Appel Constructeur Sommet()");
 	}
 	
 	
@@ -110,7 +113,6 @@ public class Sommet {
 			return graphe.getNodeChild(this);
 		}
 		
-
 
 }
 

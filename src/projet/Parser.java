@@ -17,9 +17,11 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
+import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 import astvisitor.MethodDeclarationVisitor;
@@ -170,6 +172,14 @@ public class Parser {
 			System.out.println(method);
 			System.out.println(method.getExpression());
 			String result = "";
+			
+			System.out.println(method.getName()+" ARGS "+method.arguments());
+			for(Object n : method.arguments()){
+				Expression e = (Expression)n;
+				System.out.println("Arg type "+e.resolveTypeBinding().getName());
+			}
+			
+			
 			if ( method.getExpression() == null || method.getExpression().toString().equalsIgnoreCase("this"))
 			{
 				System.out.println("this");
@@ -210,6 +220,9 @@ public class Parser {
 			parse.accept(visitor1);
 			Map<String ,Sommet> sommets = g.getSommets();
 			for (MethodDeclaration method : visitor1.getMethods()) {
+				
+				System.out.println(method.getName()+" ARGS "+method.parameters());
+				System.out.println(method.getName()+" RETURN "+method.getReturnType2());
 
 				MethodInvocationVisitor visitor2 = new MethodInvocationVisitor();
 				method.accept(visitor2);
