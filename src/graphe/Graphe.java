@@ -93,13 +93,13 @@ public class Graphe {
 		    	i++;
 		    	if (a.getSommetBegin().getNomSommet().equalsIgnoreCase(entry.getKey()))
 		    	{
-		    		System.out.println("NO "+entry.getKey());
+		    		//System.out.println("NO "+entry.getKey());
 		    		break;
 		    	}
 		    }
 		    if (i==n)
 		    {
-	    		System.out.println("YES "+entry.getKey());
+	    		//System.out.println("YES "+entry.getKey());
 
 		    	out.put(entry.getKey(),entry.getValue());
 		    }
@@ -118,13 +118,13 @@ public class Graphe {
 		    	i++;
 		    	if (a.getSommetBegin().getNomSommet().equalsIgnoreCase(entry.getKey()))
 		    	{
-		    		System.out.println("NO "+entry.getKey());
+		    		//System.out.println("NO "+entry.getKey());
 		    		break;
 		    	}
 		    }
 		    if (i==n)
 		    {
-	    		System.out.println("YES "+entry.getKey());
+	    		//System.out.println("YES "+entry.getKey());
 
 		    	out.put(entry.getKey(),entry.getValue());
 		    }
@@ -146,7 +146,7 @@ public class Graphe {
 		    	if (a.getSommetEnd().getNomSommet().equalsIgnoreCase(entry.getKey()))
 		    	{
 		    		i--;
-		    		System.out.println("NO "+entry.getKey());
+		    		//System.out.println("NO "+entry.getKey());
 		    		break;
 		    	}
 		    	else if(a.getSommetBegin().getNomSommet().equalsIgnoreCase(entry.getKey()))
@@ -156,12 +156,42 @@ public class Graphe {
 		    }
 		    if (i==n && j>0)
 		    {
-	    		System.out.println("YES "+entry.getKey());
+	    		//System.out.println("YES "+entry.getKey());
 		    	out.put(entry.getKey(),entry.getValue());
 		    }
 		}
 		return out;
 	}
+	
+	
+	public List<Sommet> getNodeChild(Sommet s)
+	{
+		List<Sommet> out =  new ArrayList<Sommet>();
+		 for (Arete a : this.aretes)
+		    {
+		    	if(a.getSommetBegin().getNomSommet().equalsIgnoreCase(s.getNomSommet()))
+		    	{
+		    		out.add(a.getSommetEnd());
+		    	}
+		    }
+		 return out;
+	}
+	
+	public List<Sommet> getNodeParent(Sommet s)
+	{
+		List<Sommet> out =  new ArrayList<Sommet>();
+		 for (Arete a : this.aretes)
+		    {
+		    	if(a.getSommetEnd().getNomSommet().equalsIgnoreCase(s.getNomSommet()))
+		    	{
+		    		out.add(a.getSommetBegin());
+		    	}
+		    }
+		 return out;
+	}
+	
+	
+	
 
 
 }

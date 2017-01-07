@@ -92,7 +92,7 @@ public class Parser {
 
 		for (MethodDeclaration method : visitor.getMethods())
 		{
-			g.addSommet(new Sommet(className+":"+(method.getName())));
+			g.addSommet(new Sommet(className+":"+(method.getName()),g));
 			/*
 			System.out.println("Method name: " + method.getName()
 			+ " Return type: " + method.getReturnType2());
@@ -116,7 +116,7 @@ public class Parser {
 			 */
 			for (MethodInvocation methodInvocation : visitor2.getMethods()) 
 			{
-				g.addSommet(new Sommet(toStringMethdIn(methodInvocation,className)));
+				g.addSommet(new Sommet(toStringMethdIn(methodInvocation,className),g));
 			}
 
 		}

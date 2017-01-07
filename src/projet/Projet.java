@@ -28,7 +28,7 @@ public class Projet
 
 	public final static String dir = System.getProperty("user.dir");
 	public static final String projectPath = dir+"/../HMIN306_ExtractAppWorkFlow/";
-	public static final String projectSourcePath = projectPath + "/src";
+	public static final String projectSourcePath = projectPath + "/src/tp3/test";
 	//public static final String jrePath = "/usr/share/java";
 	public static final String jrePath = "";
 
@@ -79,9 +79,21 @@ public class Projet
 		
 		System.out.println(grapheInvocation.getSommets());
 		System.out.println(grapheInvocation.getAretes());
-		System.out.println(grapheInvocation.getTaches());
+		System.out.println("Tâches :"+grapheInvocation.getTaches());
+		for (Map.Entry<String, Sommet> entry : grapheInvocation.getTaches().entrySet())
+		{
+			System.out.println(entry.getKey()+" Tache :");
+			System.out.println("Parents : "+entry.getValue().getParents());
+			System.out.println("Childs : "+entry.getValue().getChilds());
+		}
 		//System.out.println(grapheInvocation.getTachesComposites());
-		System.out.println(grapheInvocation.getPointEntree());
+		System.out.println("Points d'entrées :"+grapheInvocation.getPointEntree());
+		for (Map.Entry<String, Sommet> entry : grapheInvocation.getPointEntree().entrySet())
+		{
+			System.out.println(entry.getKey()+" PE :");
+			System.out.println("Parents : "+entry.getValue().getParents());
+			System.out.println("Childs : "+entry.getValue().getChilds());
+		}
 	}
 
 }
