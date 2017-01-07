@@ -31,7 +31,7 @@ public class Parser {
 
 	public final static String dir = System.getProperty("user.dir");
 	public static final String projectPath = dir+"/../HMIN306_ExtractAppWorkFlow/";
-	public static final String projectSourcePath = projectPath + "/src/tp3/test";
+	public static final String projectSourcePath = projectPath + "/src/";
 	//public static final String jrePath = "/usr/share/java";
 	public static final String jrePath = "";
 
@@ -100,6 +100,27 @@ public class Parser {
 		}
 		return g;
 
+	}
+	
+	public static Graphe nodeMethodInvocationInfo(CompilationUnit parse,Graphe g, String className) {
+		MethodDeclarationVisitor visitor1 = new MethodDeclarationVisitor();
+		parse.accept(visitor1);
+		Map<String ,Sommet> sommets = g.getSommets();
+		for (MethodDeclaration method : visitor1.getMethods()) {
+
+			MethodInvocationVisitor visitor2 = new MethodInvocationVisitor();
+			method.accept(visitor2);
+
+			/*
+			 * Issue to get class name from method
+			 */
+			for (MethodInvocation methodInvocation : visitor2.getMethods()) 
+			{
+				g.addSommet(new Sommet(toStringMethdIn(methodInvocation,className)));
+			}
+
+		}
+		return g;
 	}
 
 	// navigate variables inside method

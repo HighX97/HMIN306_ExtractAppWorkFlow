@@ -28,7 +28,7 @@ public class Projet
 
 	public final static String dir = System.getProperty("user.dir");
 	public static final String projectPath = dir+"/../HMIN306_ExtractAppWorkFlow/";
-	public static final String projectSourcePath = projectPath + "/src/tp3/test";
+	public static final String projectSourcePath = projectPath + "/src";
 	//public static final String jrePath = "/usr/share/java";
 	public static final String jrePath = "";
 
@@ -53,6 +53,8 @@ public class Projet
 			// print methods info
 			//printMethodInfo(parse);
 			grapheInvocation = Parser.nodeMethodInfo(parse, grapheInvocation,className);
+			grapheInvocation = Parser.nodeMethodInvocationInfo(parse, grapheInvocation,className);
+			
 
 			System.out.println("----------------------------"+className+"Variables--------------------------");
 			// print variables info
