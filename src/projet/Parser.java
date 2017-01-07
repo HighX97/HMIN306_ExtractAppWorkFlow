@@ -147,9 +147,9 @@ public class Parser {
 		public static String toStringMethdIn(MethodInvocation method , String className)
 		{
 			System.out.println(method);
+			System.out.println(method.getExpression());
 			String result = "";
-
-			if (method.getExpression().toString().equalsIgnoreCase("this"))
+			if ( method.getExpression() == null || method.getExpression().toString().equalsIgnoreCase("this"))
 			{
 				System.out.println("this");
 				result = className +":"+method.getName();
