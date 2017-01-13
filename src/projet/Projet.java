@@ -21,6 +21,7 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
@@ -28,6 +29,9 @@ import javax.swing.JFrame;
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.visualization.VisualizationImageServer;
+import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
+import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
+import edu.uci.ics.jung.visualization.renderers.DefaultVertexLabelRenderer;
 import graphe.*;
 
 public class Projet
@@ -114,12 +118,26 @@ public class Projet
 		}
 	    VisualizationImageServer<String, String> vs =
 	        new VisualizationImageServer<String, String>(new CircleLayout<String, String>(g), new Dimension(600, 600));
+	    //vs.getRenderContext().setVertexLabelRenderer();
+	    vs.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
+	    vs.getRenderContext().setVertexLabelRenderer(new DefaultVertexLabelRenderer(Color.green));
+        //vs.getRenderContext().setEdgeDrawPaintTransformer(new ConstantTransformer(Color.white));
+       // vs.getRenderContext().setEdgeStrokeTransformer(new ConstantTransformer(new BasicStroke(2.5f)));
 
+        //vs.getRenderContext().setVertexFillPaintTransformer(new VertexPaintTransformer(vs.getPickedVertexState()));
+
+        DefaultModalGraphMouse graphMouse = new DefaultModalGraphMouse();
+        graphMouse.setMode(edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode.PICKING);
+       // vs.setGraphMouse(graphMouse);
+
+	    
 	    JFrame frame = new JFrame();
 	    frame.getContentPane().add(vs);
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.pack();
 	    frame.setVisible(true);
 	}
+	
+	
 
 }
