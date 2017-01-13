@@ -21,6 +21,13 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+
+import edu.uci.ics.jung.algorithms.layout.CircleLayout;
+import edu.uci.ics.jung.graph.DirectedSparseGraph;
+import edu.uci.ics.jung.visualization.VisualizationImageServer;
 import graphe.*;
 
 public class Projet
@@ -95,6 +102,24 @@ public class Projet
 			System.out.println("Parents : "+entry.getValue().getParents());
 			System.out.println("Childs : "+entry.getValue().getChilds());
 		}
+		
+	    DirectedSparseGraph<String, String> g = new DirectedSparseGraph<String, String>();
+		for (Map.Entry<String, Sommet> entry : grapheInvocation.getSommets().entrySet())
+		{
+			g.addVertex(entry.getValue().getNomSommet());
+		}
+		for (Arete a : grapheInvocation.getAretes())
+		{
+			g.addEdge(a.getLabelArret(), a.getSommetBegin().getNomSommet(), a.getSommetEnd().getNomSommet());
+		}
+	    VisualizationImageServer<String, String> vs =
+	        new VisualizationImageServer<String, String>(new CircleLayout<String, String>(g), new Dimension(600, 600));
+
+	    JFrame frame = new JFrame();
+	    frame.getContentPane().add(vs);
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.pack();
+	    frame.setVisible(true);
 	}
 
 }

@@ -14,12 +14,6 @@
 	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/HMIN306_Evolution_Restructuration/02_AnalyseStatique/TP/ast libs/org.eclipse.jface.text_3.8.101.v20130802-1147.jar"/>
 	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/HMIN306_Evolution_Restructuration/02_AnalyseStatique/TP/ast libs/org.eclipse.osgi_3.9.1.v20140110-1610.jar"/>
 	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/HMIN306_Evolution_Restructuration/03_AnalyseDynamique_Spoon/spoon-core-5.3.0-jar-with-dependencies.jar"/>
-	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/workspace_eclipse/HMIN306_ExtractAppWorkFlow/jung-samples-2.1.1.jar"/>
-	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/workspace_eclipse/HMIN306_ExtractAppWorkFlow/jung-visualization-2.1.1.jar"/>
-	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/workspace_eclipse/HMIN306_ExtractAppWorkFlow/jung-io-2.1.1.jar"/>
-	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/workspace_eclipse/HMIN306_ExtractAppWorkFlow/jung-algorithms-2.1.1.jar"/>
-	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/workspace_eclipse/HMIN306_ExtractAppWorkFlow/jung-graph-impl-2.1.1.jar"/>
-	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/workspace_eclipse/HMIN306_ExtractAppWorkFlow/jung-api-2.1.1.jar"/>
 	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/workspace_eclipse/HMIN306_ExtractAppWorkFlow/lib/draw2d/3.7.2/org.eclipse.draw2d.doc.isv_3.5.0.v20111106-2020.jar"/>
 	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/workspace_eclipse/HMIN306_ExtractAppWorkFlow/lib/draw2d/3.7.2/org.eclipse.draw2d.source_3.7.2.v20111017-2020.jar"/>
 	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/workspace_eclipse/HMIN306_ExtractAppWorkFlow/lib/draw2d/3.7.2/org.eclipse.draw2d_3.7.2.v20111017-2020.jar"/>
@@ -27,5 +21,11 @@
 	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/workspace_eclipse/HMIN306_ExtractAppWorkFlow/lib/swt/4.2/swt.jar"/>
 	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/workspace_eclipse/HMIN306_ExtractAppWorkFlow/lib/swt/4.2/swt-debug.jar"/>
 	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/workspace_eclipse/HMIN306_ExtractAppWorkFlow/lib/guava/12/guava-12.0.jar"/>
+	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/workspace_eclipse/HMIN306_ExtractAppWorkFlow/lib/jung/jung-algorithms-2.1.1.jar"/>
+	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/workspace_eclipse/HMIN306_ExtractAppWorkFlow/lib/jung/jung-api-2.1.1.jar"/>
+	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/workspace_eclipse/HMIN306_ExtractAppWorkFlow/lib/jung/jung-graph-impl-2.1.1.jar"/>
+	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/workspace_eclipse/HMIN306_ExtractAppWorkFlow/lib/jung/jung-io-2.1.1.jar"/>
+	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/workspace_eclipse/HMIN306_ExtractAppWorkFlow/lib/jung/jung-samples-2.1.1.jar"/>
+	<classpathentry kind="lib" path="/home/lowx/Documents/Professionnel/Etude/Master_AIGLE/M2/workspace_eclipse/HMIN306_ExtractAppWorkFlow/lib/jung/jung-visualization-2.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
