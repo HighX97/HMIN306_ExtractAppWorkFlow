@@ -23,7 +23,11 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
@@ -117,6 +121,7 @@ public class Projet
 			g.addEdge(a.getLabelArret(), a.getSommetBegin().getNomSommet(), a.getSommetEnd().getNomSommet());
 		}
 	    VisualizationImageServer<String, String> vs =
+
 	        new VisualizationImageServer<String, String>(new CircleLayout<String, String>(g), new Dimension(600, 600));
 	    //vs.getRenderContext().setVertexLabelRenderer();
 	    vs.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
@@ -129,13 +134,38 @@ public class Projet
         DefaultModalGraphMouse graphMouse = new DefaultModalGraphMouse();
         graphMouse.setMode(edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode.PICKING);
        // vs.setGraphMouse(graphMouse);
+        
+        new VisualizationImageServer<String, String>(new CircleLayout<String, String>(g), 
+	        		new Dimension(2000, 2000));
+	    
+	    
+		 // Create the buffered image
+	    BufferedImage image = (BufferedImage) vs.getImage(
+	        new Point2D.Double(vs.getGraphLayout().getSize().getWidth(),
+	        		vs.getGraphLayout().getSize().getHeight()),
+	        new Dimension(vs.getGraphLayout().getSize()));
 
+	    
+	    // Write image to a png file
+	    File outputfile = new File("graph.png");
+	    System.out.println(outputfile.getAbsolutePath());
+
+	    try {
+	    	System.out.println("Image Write");
+	        ImageIO.write(image, "png", outputfile);
+	    } catch (IOException e) {
+	        // Exception handling
+	    }
+	    
+	
 	    
 	    JFrame frame = new JFrame();
 	    frame.getContentPane().add(vs);
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.pack();
 	    frame.setVisible(true);
+
+
 	}
 	
 	
