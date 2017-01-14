@@ -29,13 +29,24 @@ import java.awt.image.RenderedImage;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.text.Position;
 
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
+import edu.uci.ics.jung.algorithms.layout.FRLayout;
+import edu.uci.ics.jung.algorithms.layout.TreeLayout;
+import edu.uci.ics.jung.algorithms.layout.Layout;
+import edu.uci.ics.jung.algorithms.layout.SpringLayout;
+import edu.uci.ics.jung.graph.DelegateForest;
+import edu.uci.ics.jung.graph.DelegateTree;
+import edu.uci.ics.jung.graph.DirectedGraph;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
-import edu.uci.ics.jung.visualization.VisualizationImageServer;
+import edu.uci.ics.jung.graph.Forest;
+import edu.uci.ics.jung.graph.Graph;
+import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
+import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
-import edu.uci.ics.jung.visualization.renderers.DefaultVertexLabelRenderer;
+import edu.uci.ics.jung.visualization.RenderContext;
 import graphe.*;
 
 public class Projet
@@ -111,56 +122,68 @@ public class Projet
 			System.out.println("Childs : "+entry.getValue().getChilds());
 		}
 		
-	    DirectedSparseGraph<String, String> g = new DirectedSparseGraph<String, String>();
+	   // DirectedGraph<String, String> g = new DirectedSparseMultigraph<String, String>();
+		Graph<String, String> g = new DelegateForest<>();
+		
 		for (Map.Entry<String, Sommet> entry : grapheInvocation.getSommets().entrySet())
 		{
-			g.addVertex(entry.getValue().getNomSommet());
+			if(!g.containsVertex(entry.getValue().getNomSommet())){
+				g.addVertex(entry.getValue().getNomSommet());
+			}
+				
 		}
 		for (Arete a : grapheInvocation.getAretes())
 		{
 			g.addEdge(a.getLabelArret(), a.getSommetBegin().getNomSommet(), a.getSommetEnd().getNomSommet());
 		}
+		 /*DelegateTree<String,String> tree = new DelegateTree<String,String>(g);
 	    VisualizationImageServer<String, String> vs =
 
-	        new VisualizationImageServer<String, String>(new CircleLayout<String, String>(g), new Dimension(600, 600));
-	    //vs.getRenderContext().setVertexLabelRenderer();
+	        new VisualizationImageServer<String, String>(new FRLayout<String, String>(g), new Dimension(600, 600));
+	    
 	    vs.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
 	    vs.getRenderContext().setVertexLabelRenderer(new DefaultVertexLabelRenderer(Color.green));
-        //vs.getRenderContext().setEdgeDrawPaintTransformer(new ConstantTransformer(Color.white));
-       // vs.getRenderContext().setEdgeStrokeTransformer(new ConstantTransformer(new BasicStroke(2.5f)));
-
-        //vs.getRenderContext().setVertexFillPaintTransformer(new VertexPaintTransformer(vs.getPickedVertexState()));
-
-        DefaultModalGraphMouse graphMouse = new DefaultModalGraphMouse();
-        graphMouse.setMode(edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode.PICKING);
-       // vs.setGraphMouse(graphMouse);
-        
-        new VisualizationImageServer<String, String>(new CircleLayout<String, String>(g), 
-	        		new Dimension(2000, 2000));
 	    
+        
+       
+        /*new VisualizationImageServer<String, String>(new TreeLayout<String,String> (tree), 
+	        		new Dimension(2000, 2000));
+	    // CircleLayout<String, String>(g)
 	    
 		 // Create the buffered image
 	    BufferedImage image = (BufferedImage) vs.getImage(
 	        new Point2D.Double(vs.getGraphLayout().getSize().getWidth(),
 	        		vs.getGraphLayout().getSize().getHeight()),
 	        new Dimension(vs.getGraphLayout().getSize()));
+*/
+		Layout<String, String> layout3 = new SpringLayout<String, String> (g);
+	    VisualizationViewer<String, String> vv3 = new VisualizationViewer<>(layout3);
+
+	   
+	    vv3.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
+	    vv3.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
+
+
+	    final DefaultModalGraphMouse<String, Number> graphMouse3 = new DefaultModalGraphMouse<>();
+	    vv3.setGraphMouse(graphMouse3);
+	    graphMouse3.setMode(ModalGraphMouse.Mode.PICKING);
 
 	    
 	    // Write image to a png file
 	    File outputfile = new File("graph.png");
 	    System.out.println(outputfile.getAbsolutePath());
 
-	    try {
+	    /*try {
 	    	System.out.println("Image Write");
 	        ImageIO.write(image, "png", outputfile);
 	    } catch (IOException e) {
 	        // Exception handling
-	    }
+	    }*/
 	    
 	
 	    
 	    JFrame frame = new JFrame();
-	    frame.getContentPane().add(vs);
+	    frame.getContentPane().add(vv3);
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.pack();
 	    frame.setVisible(true);
