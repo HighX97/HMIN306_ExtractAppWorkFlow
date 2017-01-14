@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.functors.ConstantTransformer;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.core.internal.utils.FileUtil;
 import org.eclipse.core.resources.IProject;
@@ -21,8 +22,11 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
+import com.google.common.base.Function;
+
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Paint;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
@@ -31,6 +35,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
+import edu.uci.ics.jung.algorithms.layout.RadialTreeLayout;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.visualization.VisualizationImageServer;
 import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
@@ -126,7 +131,8 @@ public class Projet
 	    //vs.getRenderContext().setVertexLabelRenderer();
 	    vs.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
 	    vs.getRenderContext().setVertexLabelRenderer(new DefaultVertexLabelRenderer(Color.green));
-        //vs.getRenderContext().setEdgeDrawPaintTransformer(new ConstantTransformer(Color.white));
+	    
+        //vs.getRenderContext().setVertexDrawPaintTransformer( new ConstantTransformer(Color.white));
        // vs.getRenderContext().setEdgeStrokeTransformer(new ConstantTransformer(new BasicStroke(2.5f)));
 
         //vs.getRenderContext().setVertexFillPaintTransformer(new VertexPaintTransformer(vs.getPickedVertexState()));
