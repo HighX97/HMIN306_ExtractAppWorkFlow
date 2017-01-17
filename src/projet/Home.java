@@ -30,9 +30,16 @@ import javax.swing.GroupLayout.Alignment;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
+import edu.uci.ics.jung.algorithms.layout.CircleLayout;
+import edu.uci.ics.jung.algorithms.layout.DAGLayout;
+import edu.uci.ics.jung.algorithms.layout.FRLayout2;
+import edu.uci.ics.jung.algorithms.layout.KKLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.algorithms.layout.SpringLayout;
+import edu.uci.ics.jung.algorithms.layout.SpringLayout2;
 import edu.uci.ics.jung.graph.DelegateForest;
+import edu.uci.ics.jung.graph.DirectedGraph;
+import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
@@ -66,6 +73,9 @@ public class Home {
 
 	private JFrame frame;
 	DefaultModalGraphMouse<String, Number> graphMouse3=null;
+	Layout<String, String> layout3 = null;
+	Graphe grapheInvocation = null;
+	Dimension preferredGraphSize=new Dimension(1360,798);
 
 	/**
 	 * Launch the application.
@@ -134,8 +144,8 @@ public class Home {
 		
 		//Selected Graph Mode
 		String[] petStrings = { "ANNOTATING", "EDITING", "PICKING", "TRANSFORMING"};
-		JComboBox graphSelecteMode = new JComboBox(petStrings);
-		graphSelecteMode.addActionListener(new ActionListener() {
+		JComboBox graphSelectedMode = new JComboBox(petStrings);
+		graphSelectedMode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
 				System.out.println("ComboBox");
@@ -159,7 +169,98 @@ public class Home {
 				}	
 			}
 		});
-		output_graph_panel.add(graphSelecteMode, BorderLayout.NORTH);
+		output_graph_panel.add(graphSelectedMode, BorderLayout.NORTH);
+		
+		
+		String[] layouts = {"CircleLayout",
+				"DAGLayout",
+				"FRLayout2",
+				"KKLayout",
+				"SpringLayout2"};
+		JComboBox graphLayout = new JComboBox(layouts);
+		graphLayout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("ComboBox");
+				System.out.println(e);
+				
+				JComboBox cb = (JComboBox)e.getSource();
+		        String petName = (String)cb.getSelectedItem();
+		        System.out.println(petName);
+		        DirectedGraph<String, String> g = generateGraph() ;
+				if (petName.equalsIgnoreCase("CircleLayout"))
+				{
+					layout3 = new CircleLayout<String, String> (g);
+				}
+				else if (petName.equalsIgnoreCase("DAGLayout"))
+				{
+					
+					layout3 = new DAGLayout<String, String> (g);
+				}
+				else if (petName.equalsIgnoreCase("FRLayout2"))
+				{
+			
+					layout3 = new FRLayout2<String, String> (g);
+				}
+				else if (petName.equalsIgnoreCase("KKLayout"))
+				{
+					
+					layout3 = new KKLayout<String, String> (g);
+				}	
+				else if (petName.equalsIgnoreCase("SpringLayout2"))
+				{
+					layout3 = new SpringLayout2<String, String> (g);
+				}
+				VisualizationViewer<String, String> vv3 = new VisualizationViewer<>(layout3 ,preferredGraphSize);
+
+			    //Noeuds
+			    vv3.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
+			    //Noeuds Position
+			    vv3.getRenderer().getVertexLabelRenderer().setPosition(edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position.CNTR);
+
+			    //Arc
+			    //vv3.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
+
+
+
+			    graphMouse3 = new DefaultModalGraphMouse<>();
+			    vv3.setGraphMouse(graphMouse3);
+			    graphMouse3.setMode(ModalGraphMouse.Mode.TRANSFORMING);
+			  //  graphMouse3.setMode(ModalGraphMouse.Mode.PICKING);
+
+
+			    // Write image to a png file
+			    File outputfile = new File("graph.png");
+			    System.out.println(outputfile.getAbsolutePath());
+
+			    /*try {
+			    	System.out.println("Image Write");
+			        ImageIO.write(image, "png", outputfile);
+			    } catch (IOException e) {
+			        // Exception handling
+			    }*/
+
+
+
+			    JFrame frame = new JFrame();
+			    graphInv_panel.removeAll();
+			    graphInv_panel.add(vv3, BorderLayout.CENTER);
+					/*
+					*/
+					/*
+				JScrollPane scrollPane = new JScrollPane(vv3);
+				panel_3.add(scrollPane, BorderLayout.CENTER);
+				scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+				*/
+			    vv3.setPreferredSize(output_graph_panel.getPreferredSize());
+			    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			    frame.pack();
+			    frame.setVisible(true);
+			    tabbedPane.setSelectedIndex(1);
+
+			}
+		});
+		output_graph_panel.add(graphLayout, BorderLayout.SOUTH);
 
 		/*
 		JPanel panel_2 = new JPanel();
@@ -178,7 +279,7 @@ public class Home {
 				// read java files
 				final File folder = new File(projectSourcePath);
 				ArrayList<File> javaFiles = Parser.listJavaFilesForFolder(folder);
-				Graphe grapheInvocation = new Graphe();
+				grapheInvocation = new Graphe();
 
 				//
 				for (File fileEntry : javaFiles) {
@@ -250,23 +351,10 @@ public class Home {
 					System.out.println("Childs : "+entry.getValue().getChilds());
 				}
 
-			   // DirectedGraph<String, String> g = new DirectedSparseMultigraph<String, String>();
-				Graph<String, String> g = new DelegateForest<>();
+			   DirectedGraph<String, String> g = generateGraph();
 
-				for (Map.Entry<String, Sommet> entry : grapheInvocation.getSommets().entrySet())
-				{
-					if(!g.containsVertex(entry.getValue().getNomSommet())){
-						g.addVertex(entry.getValue().getNomSommet());
-					}
-
-				}
-				for (Arete a : grapheInvocation.getAretes())
-				{
-					g.addEdge(a.getLabelArret(), a.getSommetBegin().getNomSommet(), a.getSommetEnd().getNomSommet());
-				}
-
-				Dimension preferredGraphSize=new Dimension(1360,798);
-				Layout<String, String> layout3 = new SpringLayout<String, String> (g);
+			
+				layout3 = new SpringLayout<String, String> (g);
 			    VisualizationViewer<String, String> vv3 = new VisualizationViewer<>(layout3 ,preferredGraphSize);
 
 			    //Noeuds
@@ -315,6 +403,8 @@ public class Home {
 			    frame.setVisible(true);
 			    tabbedPane.setSelectedIndex(1);
 			}
+
+
 		});
 		input_panel.add(btnNewButton);
 		
@@ -323,5 +413,24 @@ public class Home {
 
 
 
+	}
+	
+	private DirectedGraph<String, String> generateGraph() 
+	{
+		   DirectedGraph<String, String> g = new DirectedSparseMultigraph<String, String>();
+			//Graph<String, String> g = new DelegateForest<>();
+
+			for (Map.Entry<String, Sommet> entry : grapheInvocation.getSommets().entrySet())
+			{
+				if(!g.containsVertex(entry.getValue().getNomSommet())){
+					g.addVertex(entry.getValue().getNomSommet());
+				}
+
+			}
+			for (Arete a : grapheInvocation.getAretes())
+			{
+				g.addEdge(a.getLabelArret(), a.getSommetBegin().getNomSommet(), a.getSommetEnd().getNomSommet());
+			}
+			return g;
 	}
 }
