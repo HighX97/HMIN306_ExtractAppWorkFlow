@@ -176,7 +176,13 @@ public class Parser {
 			System.out.println(method.getName()+" ARGS "+method.arguments());
 			for(Object n : method.arguments()){
 				Expression e = (Expression)n;
-				System.out.println("Arg type "+e.resolveTypeBinding().getName());
+				System.out.println("DEBUG");
+				System.out.println(e);
+				if (e.resolveTypeBinding() != null)
+				{
+					System.out.println("Arg type "+e.resolveTypeBinding().getName());
+
+				}
 			}
 			
 			
