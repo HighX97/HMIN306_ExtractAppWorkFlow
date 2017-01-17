@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
-import org.apache.commons.collections15.Transformer;
-import org.apache.commons.collections15.functors.ConstantTransformer;
+import org.apache.commons.collections4.Transformer;
+import org.apache.commons.collections4.functors.ConstantTransformer;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jdt.core.dom.CompilationUnit;
@@ -179,10 +179,12 @@ public class Projet
 	    	            return new Ellipse2D.Double(-25, -10, 50, 20);
 	    	        }
 	    	    };*/
+/*
 	     new VisualizationImageServer<String, String>(new FRLayout<String, String>(g), new Dimension(600, 600));
 	    
 	    vs.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
 	    vs.getRenderContext().setVertexLabelRenderer(new DefaultVertexLabelRenderer(Color.green));
+	    */
 
         //vs.getRenderContext().setVertexDrawPaintTransformer( new ConstantTransformer(Color.white));
        // vs.getRenderContext().setEdgeStrokeTransformer(new ConstantTransformer(new BasicStroke(2.5f)));
@@ -191,24 +193,31 @@ public class Projet
 
         DefaultModalGraphMouse graphMouse = new DefaultModalGraphMouse();
         graphMouse.setMode(edu.uci.ics.jung.visualization.control.ModalGraphMouse.Mode.PICKING);
+	    vv3.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
+	    
+	    vv3.getRenderContext().setVertexLabelRenderer(new DefaultVertexLabelRenderer(Color.pink));
+	    
+	    //vv3.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
+	    vv3.getRenderer().getVertexLabelRenderer().setPosition(edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position.CNTR);
+	  
+	    
        // vs.setGraphMouse(graphMouse);
        
         /*new VisualizationImageServer<String, String>(new TreeLayout<String,String> (tree), 
 	        		new Dimension(2000, 2000));
 	    // CircleLayout<String, String>(g)
->>>>>>> b9d0673452cd76e6176e93812eb43b5696a81239
 	    
 	    VertexShapeFactory<String> shap = new VertexShapeFactory<String>();
-        //vv3.getRenderContext().setVertexShapeTransformer(new VertexShapeFactory());
+        vv3.getRenderContext().setVertexShapeTransformer(new VertexShapeFactory());
 
 
 	    vv3.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
 	    
 	    vv3.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
 	    
-	    //vv3.getRenderContext().setVertexLabelRenderer(new DefaultVertexLabelRenderer(Color.pink));
+	    vv3.getRenderContext().setVertexLabelRenderer(new DefaultVertexLabelRenderer(Color.pink));
 	    
-	    //vv3.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
+	    vv3.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
 	    vv3.getRenderer().getVertexLabelRenderer().setPosition(edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position.CNTR);
 	  
 	    

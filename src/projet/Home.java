@@ -59,10 +59,13 @@ import java.awt.Point;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.JRadioButton;
+import javax.swing.JComboBox;
 
 public class Home {
 
 	private JFrame frame;
+	DefaultModalGraphMouse<String, Number> graphMouse3=null;
 
 	/**
 	 * Launch the application.
@@ -113,17 +116,50 @@ public class Home {
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		panel.add(tabbedPane);
 
-		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("Input", null, panel_1, null);
-		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.X_AXIS));
+		JPanel input_panel = new JPanel();
+		tabbedPane.addTab("Input", null, input_panel, null);
+		input_panel.setLayout(new BoxLayout(input_panel, BoxLayout.X_AXIS));
 
 		TextField textField = new TextField();
-		panel_1.add(textField);
+		input_panel.add(textField);
 
 
-		JPanel panel_3 = new JPanel();
-		tabbedPane.addTab("Invocation Graph", null, panel_3, null);
-		panel_3.setLayout(new BorderLayout(0, 0));
+		JPanel output_graph_panel = new JPanel();
+		tabbedPane.addTab("Invocation Graph", null, output_graph_panel, null);
+		output_graph_panel.setLayout(new BorderLayout(0, 0));
+		
+		JPanel graphInv_panel = new JPanel();
+		output_graph_panel.add(graphInv_panel, BorderLayout.CENTER);
+		
+		
+		//Selected Graph Mode
+		String[] petStrings = { "ANNOTATING", "EDITING", "PICKING", "TRANSFORMING"};
+		JComboBox graphSelecteMode = new JComboBox(petStrings);
+		graphSelecteMode.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+				System.out.println("ComboBox");
+				JComboBox cb = (JComboBox)e.getSource();
+		        String petName = (String)cb.getSelectedItem();
+				if (petName.equalsIgnoreCase("ANNOTATING"))
+				{
+					graphMouse3.setMode(ModalGraphMouse.Mode.ANNOTATING);
+				}
+				else if (petName.equalsIgnoreCase("EDITING"))
+				{
+					graphMouse3.setMode(ModalGraphMouse.Mode.EDITING);
+				}
+				else if (petName.equalsIgnoreCase("PICKING"))
+				{
+					graphMouse3.setMode(ModalGraphMouse.Mode.PICKING);
+				}
+				else if (petName.equalsIgnoreCase("TRANSFORMING"))
+				{
+					graphMouse3.setMode(ModalGraphMouse.Mode.TRANSFORMING);
+				}	
+			}
+		});
+		output_graph_panel.add(graphSelecteMode, BorderLayout.NORTH);
 
 		/*
 		JPanel panel_2 = new JPanel();
@@ -233,14 +269,20 @@ public class Home {
 				Layout<String, String> layout3 = new SpringLayout<String, String> (g);
 			    VisualizationViewer<String, String> vv3 = new VisualizationViewer<>(layout3 ,preferredGraphSize);
 
-
+			    //Noeuds
 			    vv3.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
+			    //Noeuds Position
+			    vv3.getRenderer().getVertexLabelRenderer().setPosition(edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position.CNTR);
+
+			    //Arc
 			    //vv3.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
 
 
-			    final DefaultModalGraphMouse<String, Number> graphMouse3 = new DefaultModalGraphMouse<>();
+
+			    graphMouse3 = new DefaultModalGraphMouse<>();
 			    vv3.setGraphMouse(graphMouse3);
-			    graphMouse3.setMode(ModalGraphMouse.Mode.PICKING);
+			    graphMouse3.setMode(ModalGraphMouse.Mode.TRANSFORMING);
+			  //  graphMouse3.setMode(ModalGraphMouse.Mode.PICKING);
 
 
 			    // Write image to a png file
@@ -257,8 +299,8 @@ public class Home {
 
 
 			    JFrame frame = new JFrame();
-			    panel_3.removeAll();
-			    panel_3.add(vv3, BorderLayout.CENTER);
+			    graphInv_panel.removeAll();
+			    graphInv_panel.add(vv3, BorderLayout.CENTER);
 					/*
 					*/
 					/*
@@ -267,14 +309,17 @@ public class Home {
 				scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 				*/
-			    vv3.setPreferredSize(panel_3.getPreferredSize());
+			    vv3.setPreferredSize(output_graph_panel.getPreferredSize());
 			    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			    frame.pack();
 			    frame.setVisible(true);
 			    tabbedPane.setSelectedIndex(1);
 			}
 		});
-		panel_1.add(btnNewButton);
+		input_panel.add(btnNewButton);
+		
+		JPanel output_tab_panel = new JPanel();
+		tabbedPane.addTab("Output Table", null, output_tab_panel, null);
 
 
 
