@@ -24,5 +24,6 @@
 	<classpathentry kind="lib" path="lib/jung/jung-visualization-2.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/swt/4.2/swt-debug.jar"/>
 	<classpathentry kind="lib" path="lib/swt/4.2/swt.jar"/>
+	<classpathentry kind="lib" path="C:/Users/maiga mariam/Downloads/collections-generic-4.01.jar/collections-generic-4.01.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
