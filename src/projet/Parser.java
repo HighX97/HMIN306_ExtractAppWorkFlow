@@ -22,6 +22,7 @@ import org.eclipse.jdt.core.dom.ITypeBinding;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.SimpleName;
+import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 import astvisitor.MethodDeclarationVisitor;
@@ -54,7 +55,7 @@ public class Parser {
 	}
 
 	// create AST
-	static CompilationUnit parse(char[] classSource) {
+	public static CompilationUnit parse(char[] classSource) {
 		ASTParser parser = ASTParser.newParser(AST.JLS4); // java +1.6
 		parser.setResolveBindings(true);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
@@ -94,7 +95,37 @@ public class Parser {
 
 		for (MethodDeclaration method : visitor.getMethods())
 		{
-			g.addSommet(new Sommet(className+":"+(method.getName()),g));
+			Sommet s = new Sommet(className+":"+(method.getName()),g);
+			
+			for (Object param : method.parameters())
+			{
+				SingleVariableDeclaration e = (SingleVariableDeclaration)param;
+					System.out.println("DEBUG");
+					System.out.println(e);
+					System.out.println(e.resolveBinding());
+					if (e.getName() != null)
+					{
+						System.out.println("Arg type : "+e.getName());
+						String arg_in = e.resolveBinding().getType().getName();
+						s.getArgsIn().add(arg_in);
+					}
+					
+			}
+			
+			
+			if (method.getReturnType2() != null)
+			{
+				s.setArgOut(method.getReturnType2().toString());
+			}
+			else
+			{
+				s.setArgOut("void");
+			}
+			
+			
+
+			
+			g.addSommet(s);
 			/*
 			System.out.println("Method name: " + method.getName()
 			+ " Return type: " + method.getReturnType2());
@@ -118,7 +149,33 @@ public class Parser {
 			 */
 			for (MethodInvocation methodInvocation : visitor2.getMethods()) 
 			{
-				g.addSommet(new Sommet(toStringMethdIn(methodInvocation,className),g));
+				Sommet s = new Sommet(toStringMethdIn(methodInvocation,className),g);
+				
+				for (Object param : methodInvocation.arguments())
+				{
+						Expression e = (Expression)param;
+						System.out.println("DEBUG");
+						System.out.println(e);
+						if (e.resolveTypeBinding() != null)
+						{
+							System.out.println("Arg type : "+e.resolveTypeBinding().getName());
+							s.getArgsIn().add(e.resolveTypeBinding().getName());
+						}
+						
+				}
+				
+				if (methodInvocation.resolveTypeBinding() != null)
+				{
+					System.out.println("Arg type : "+methodInvocation.resolveMethodBinding().getName());
+					s.setArgOut(methodInvocation.resolveTypeBinding().getName());
+				}
+				else
+				{
+					s.setArgOut("void");
+				}
+				
+				
+				g.addSommet(s);
 			}
 
 		}

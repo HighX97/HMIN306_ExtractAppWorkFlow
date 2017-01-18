@@ -15,6 +15,9 @@ public class Sommet {
 	private String nomSommet;
 	private List<Arete> aretesEntrantes;
 	private List<Arete> aretesSortantes;
+	private String argOut;
+	private List<String> argsIn;
+
 	
 	protected Graphe graphe;
 	
@@ -26,6 +29,7 @@ public class Sommet {
 		this.setId(++count);
 		this.aretesEntrantes = new ArrayList<Arete>();
 		this.aretesSortantes = new ArrayList<Arete>();
+		this.argsIn = new ArrayList<String>();
 		//System.out.println("Appel Constructeur Sommet()");
 	}
 	
@@ -111,6 +115,47 @@ public class Sommet {
 		public List<Sommet> getChilds() 
 		{
 			return graphe.getNodeChild(this);
+		}
+
+
+		public String getArgOut() {
+			return argOut;
+		}
+
+
+		public void setArgOut(String argOut) {
+			this.argOut = argOut;
+		}
+
+
+		public List<String> getArgsIn() {
+			return argsIn;
+		}
+
+
+		public void setArgsIn(List<String> argsIn) {
+			this.argsIn = argsIn;
+		}
+		
+		public String getSignature()
+		{
+			String signature ="";
+			signature +=this.getNomSommet();
+			signature +="(";
+			int i=1;
+			int n=this.getArgsIn().size();
+			for(String arg_in : this.getArgsIn())
+			{
+				signature += arg_in;
+				if(i++ < n)
+				{
+					signature += " , ";
+				}
+			}
+			signature +=")";
+			
+			signature +=" : "+this.getArgOut();
+			return signature;
 		}
 		
 

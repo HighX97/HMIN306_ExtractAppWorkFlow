@@ -30,6 +30,8 @@ import javax.swing.GroupLayout.Alignment;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
+import projet.OpenFile;
+import projet.Parser;
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.DAGLayout;
 import edu.uci.ics.jung.algorithms.layout.FRLayout2;
@@ -422,14 +424,14 @@ public class Home {
 
 			for (Map.Entry<String, Sommet> entry : grapheInvocation.getSommets().entrySet())
 			{
-				if(!g.containsVertex(entry.getValue().getNomSommet())){
-					g.addVertex(entry.getValue().getNomSommet());
+				if(!g.containsVertex(entry.getValue().getSignature())){
+					g.addVertex(entry.getValue().getSignature());
 				}
 
 			}
 			for (Arete a : grapheInvocation.getAretes())
 			{
-				g.addEdge(a.getLabelArret(), a.getSommetBegin().getNomSommet(), a.getSommetEnd().getNomSommet());
+				g.addEdge(a.getLabelArret(), a.getSommetBegin().getSignature(), a.getSommetEnd().getSignature());
 			}
 			return g;
 	}
