@@ -2,6 +2,7 @@ package projet;
 
 import java.awt.EventQueue;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
@@ -43,6 +44,7 @@ import edu.uci.ics.jung.graph.DelegateForest;
 import edu.uci.ics.jung.graph.DirectedGraph;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.Graph;
+import edu.uci.ics.jung.visualization.VisualizationImageServer;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
@@ -53,6 +55,8 @@ import graphe.Sommet;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.awt.TextArea;
 import java.io.File;
 import java.io.IOException;
@@ -71,6 +75,9 @@ import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+
 public class Home {
 
 	private JFrame frame;
@@ -78,6 +85,7 @@ public class Home {
 	Layout<String, String> layout3 = null;
 	Graphe grapheInvocation = null;
 	Dimension preferredGraphSize=new Dimension(1360,798);
+	VisualizationViewer<String, String> vv3 = null;
 
 	/**
 	 * Launch the application.
@@ -139,52 +147,126 @@ public class Home {
 		JPanel output_graph_panel = new JPanel();
 		tabbedPane.addTab("Invocation Graph", null, output_graph_panel, null);
 		output_graph_panel.setLayout(new BorderLayout(0, 0));
-		
-		JPanel graphInv_panel = new JPanel();
-		output_graph_panel.add(graphInv_panel, BorderLayout.CENTER);
-		
-		
+
+
 		//Selected Graph Mode
 		String[] petStrings = { "ANNOTATING", "EDITING", "PICKING", "TRANSFORMING"};
-		JComboBox graphSelectedMode = new JComboBox(petStrings);
-		graphSelectedMode.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
+
+		JPanel menu_graphInv = new JPanel();
+		menu_graphInv.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt)
 			{
-				System.out.println("ComboBox");
-				JComboBox cb = (JComboBox)e.getSource();
-		        String petName = (String)cb.getSelectedItem();
-				if (petName.equalsIgnoreCase("ANNOTATING"))
-				{
-					graphMouse3.setMode(ModalGraphMouse.Mode.ANNOTATING);
-				}
-				else if (petName.equalsIgnoreCase("EDITING"))
-				{
-					graphMouse3.setMode(ModalGraphMouse.Mode.EDITING);
-				}
-				else if (petName.equalsIgnoreCase("PICKING"))
-				{
-					graphMouse3.setMode(ModalGraphMouse.Mode.PICKING);
-				}
-				else if (petName.equalsIgnoreCase("TRANSFORMING"))
-				{
-					graphMouse3.setMode(ModalGraphMouse.Mode.TRANSFORMING);
-				}	
+
 			}
 		});
-		output_graph_panel.add(graphSelectedMode, BorderLayout.NORTH);
-		
-		
+		output_graph_panel.add(menu_graphInv, BorderLayout.NORTH);
+		menu_graphInv.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		JComboBox graphSelectedMode = new JComboBox(petStrings);
+		menu_graphInv.add(graphSelectedMode);
+
+
+
 		String[] layouts = {"CircleLayout",
 				"DAGLayout",
 				"FRLayout2",
 				"KKLayout",
 				"SpringLayout2"};
+
 		JComboBox graphLayout = new JComboBox(layouts);
+		menu_graphInv.add(graphLayout);
+
+		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+
+
+			     // Create the buffered image
+	if (grapheInvocation != null)
+	{
+		VisualizationImageServer<String, String> vs = null;
+
+			if (((String) graphLayout.getSelectedItem()).equalsIgnoreCase("CircleLayout"))
+			{
+				vs = new VisualizationImageServer<String, String>(new CircleLayout<String, String>(generateGraph()),
+									new Dimension(4000, 4000));
+			}
+			else if (((String) graphLayout.getSelectedItem()).equalsIgnoreCase("DAGLayout"))
+			{
+
+				vs = new VisualizationImageServer<String, String>(new DAGLayout<String, String>(generateGraph()),
+									new Dimension(4000, 4000));
+			}
+			else if (((String) graphLayout.getSelectedItem()).equalsIgnoreCase("FRLayout2"))
+			{
+
+				vs = new VisualizationImageServer<String, String>(new FRLayout2<String, String>(generateGraph()),
+									new Dimension(4000, 4000));
+			}
+			else if (((String) graphLayout.getSelectedItem()).equalsIgnoreCase("KKLayout"))
+			{
+
+				vs = new VisualizationImageServer<String, String>(new KKLayout<String, String>(generateGraph()),
+									new Dimension(4000, 4000));
+			}
+			else if (((String) graphLayout.getSelectedItem()).equalsIgnoreCase("SpringLayout2"))
+			{
+				vs = new VisualizationImageServer<String, String>(new SpringLayout2<String, String>(generateGraph()),
+									new Dimension(4000, 4000));
+			}
+			
+		    //Noeuds
+			vs.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
+		    //Noeuds Position
+			vs.getRenderer().getVertexLabelRenderer().setPosition(edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position.CNTR);
+
+
+			      BufferedImage image = (BufferedImage) vs.getImage(
+
+
+			          new Point2D.Double(vs.getGraphLayout().getSize().getWidth(),
+
+
+			        		  vs.getGraphLayout().getSize().getHeight()),
+
+
+			          new Dimension(vs.getGraphLayout().getSize()));
+
+			      // Write image to a png file
+
+			      File outputfile = new File("graph.png");
+
+
+			      System.out.println(outputfile.getAbsolutePath());
+			      try {
+
+
+			        System.out.println("Image Write");
+
+
+			          ImageIO.write(image, "png", outputfile);
+
+			      } catch (IOException e1) {
+
+
+			          // Exception handling
+
+
+			      }
+
+	}
+			}
+		});
+		menu_graphInv.add(btnSave);
+
+		JPanel graphInv_panel = new JPanel();
+		output_graph_panel.add(graphInv_panel, BorderLayout.CENTER);
+
 		graphLayout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("ComboBox");
 				System.out.println(e);
-				
+
 				JComboBox cb = (JComboBox)e.getSource();
 		        String petName = (String)cb.getSelectedItem();
 		        System.out.println(petName);
@@ -195,24 +277,25 @@ public class Home {
 				}
 				else if (petName.equalsIgnoreCase("DAGLayout"))
 				{
-					
+
 					layout3 = new DAGLayout<String, String> (g);
 				}
 				else if (petName.equalsIgnoreCase("FRLayout2"))
 				{
-			
+
 					layout3 = new FRLayout2<String, String> (g);
 				}
 				else if (petName.equalsIgnoreCase("KKLayout"))
 				{
-					
+
 					layout3 = new KKLayout<String, String> (g);
-				}	
+				}
 				else if (petName.equalsIgnoreCase("SpringLayout2"))
 				{
 					layout3 = new SpringLayout2<String, String> (g);
 				}
-				VisualizationViewer<String, String> vv3 = new VisualizationViewer<>(layout3 ,preferredGraphSize);
+				vv3 = new VisualizationViewer<>(layout3 ,preferredGraphSize);
+
 
 			    //Noeuds
 			    vv3.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
@@ -262,7 +345,34 @@ public class Home {
 
 			}
 		});
-		output_graph_panel.add(graphLayout, BorderLayout.SOUTH);
+		graphSelectedMode.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e)
+			{
+				System.out.println("ComboBox");
+				JComboBox cb = (JComboBox)e.getSource();
+		        String petName = (String)cb.getSelectedItem();
+				if (petName.equalsIgnoreCase("ANNOTATING"))
+				{
+					graphMouse3.setMode(ModalGraphMouse.Mode.ANNOTATING);
+				}
+				else if (petName.equalsIgnoreCase("EDITING"))
+				{
+					graphMouse3.setMode(ModalGraphMouse.Mode.EDITING);
+				}
+				else if (petName.equalsIgnoreCase("PICKING"))
+				{
+					graphMouse3.setMode(ModalGraphMouse.Mode.PICKING);
+				}
+				else if (petName.equalsIgnoreCase("TRANSFORMING"))
+				{
+					graphMouse3.setMode(ModalGraphMouse.Mode.TRANSFORMING);
+				}
+			}
+		});
+
+
+
+
 
 		/*
 		JPanel panel_2 = new JPanel();
@@ -355,14 +465,14 @@ public class Home {
 
 			   DirectedGraph<String, String> g = generateGraph();
 
-			
+
 				layout3 = new SpringLayout<String, String> (g);
 			    VisualizationViewer<String, String> vv3 = new VisualizationViewer<>(layout3 ,preferredGraphSize);
 
 			    //Noeuds
 			    vv3.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
 			    //Noeuds Position
-			    vv3.getRenderer().getVertexLabelRenderer().setPosition(edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position.CNTR);
+			    vv3.getRenderer().getVertexLabelRenderer().setPosition(edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position.AUTO);
 
 			    //Arc
 			    //vv3.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
@@ -409,15 +519,12 @@ public class Home {
 
 		});
 		input_panel.add(btnNewButton);
-		
-		JPanel output_tab_panel = new JPanel();
-		tabbedPane.addTab("Output Table", null, output_tab_panel, null);
 
 
 
 	}
-	
-	private DirectedGraph<String, String> generateGraph() 
+
+	private DirectedGraph<String, String> generateGraph()
 	{
 		   DirectedGraph<String, String> g = new DirectedSparseMultigraph<String, String>();
 			//Graph<String, String> g = new DelegateForest<>();
