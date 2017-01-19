@@ -393,14 +393,6 @@ public class Home {
 
 
 
-
-
-		/*
-		JPanel panel_2 = new JPanel();
-		panel_3.add(panel_2, BorderLayout.SOUTH);
-		*/
-
-
 		JButton btnNewButton = new JButton("project path");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
@@ -463,25 +455,34 @@ public class Home {
 					//print method invocations
 					//Parser.printMethodInvocationInfo(parse);
 					grapheInvocation = Parser.areteMethodInvocationInfo(parse, grapheInvocation , className);
+					
+					
+				
 				}
 
-				System.out.println(grapheInvocation.getSommets());
-				System.out.println(grapheInvocation.getAretes());
+				System.out.println("Sommets "+grapheInvocation.getSommets());
+				System.out.println("Aretes "+grapheInvocation.getAretes());
 				System.out.println("Taches :"+grapheInvocation.getTaches());
+				System.out.println("Liste des taches primitives");
 				for (Map.Entry<String, Sommet> entry : grapheInvocation.getTaches().entrySet())
 				{
-					System.out.println(entry.getKey()+" Tache :");
-					System.out.println(entry.getKey()+" Tache :");
-					System.out.println("Parents : "+entry.getValue().getParents());
-					System.out.println("Childs : "+entry.getValue().getChilds());
+					
+					System.out.println(" Tache :"+entry.getKey()+" Entrées"+entry.getValue().getArgsIn()+" Sorties "+entry.getValue().getArgsOutTache());
+					
 				}
-				//System.out.println(grapheInvocation.getTachesComposites());
-				System.out.println("Points d'entrÃ©es :"+grapheInvocation.getPointEntree());
+				System.out.println("Liste des taches composites");
+				for (Map.Entry<String, Sommet> entry : grapheInvocation.getTachesComposites().entrySet())
+				{
+					
+					System.out.println(" Tache composite:"+entry.getKey()+" Entrées"+entry.getValue().getArgsIn()+" Sorties "+entry.getValue().getArgsOutTache());
+				}
+				//System.out.println("Points d'entrÃ©es :"+grapheInvocation.getPointEntree());
+				System.out.println("Points d'entrées");
 				for (Map.Entry<String, Sommet> entry : grapheInvocation.getPointEntree().entrySet())
 				{
-					System.out.println(entry.getKey()+" PE :");
-					System.out.println("Parents : "+entry.getValue().getParents());
-					System.out.println("Childs : "+entry.getValue().getChilds());
+					System.out.println(" PE :"+entry.getKey());
+					//System.out.println("Parents : "+entry.getValue().getParents());
+					//System.out.println("Childs : "+entry.getValue().getChilds());
 				}
 
 			   DirectedGraph<String, String> g = generateGraph();
@@ -541,7 +542,7 @@ public class Home {
 		});
 		input_panel.add(btnNewButton);
 
-
+		
 
 	}
 
@@ -563,4 +564,6 @@ public class Home {
 			}
 			return g;
 	}
+	
+	
 }

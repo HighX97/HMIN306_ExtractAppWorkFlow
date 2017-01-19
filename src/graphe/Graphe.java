@@ -48,7 +48,7 @@ public class Graphe {
 	}
 	public void addSommet(Sommet sommet) {
 		this.sommets.put(sommet.getNomSommet(),sommet);
-		System.out.println(this.sommets);
+		//System.out.println(this.sommets);
 	}
 
 	public List<Arete> getAretes() {
@@ -61,7 +61,7 @@ public class Graphe {
 
 	public void addArete(Arete aretes) {
 		this.aretes.add(aretes);
-		System.out.println(this.aretes);
+		//System.out.println(this.aretes);
 	}
 
 	public String getNomGraphe() {
@@ -103,6 +103,7 @@ public class Graphe {
 
 		    	out.put(entry.getKey(),entry.getValue());
 		    }
+			
 		}
 		return out;
 	}
@@ -111,23 +112,26 @@ public class Graphe {
 		Map<String ,Sommet> out =  new HashMap<String ,Sommet>();
 		for (Map.Entry<String, Sommet> entry : this.sommets.entrySet())
 		{
-			int i=0;
-		    int n =this.aretes.size();
+			
 		    for (Arete a : this.aretes)
 		    {
-		    	i++;
-		    	if (a.getSommetBegin().getNomSommet().equalsIgnoreCase(entry.getKey()))
+		    	
+		    	if (a.getSommetEnd().getNomSommet().equalsIgnoreCase(entry.getKey()))
 		    	{
-		    		//System.out.println("NO "+entry.getKey());
-		    		break;
+		    		for (Arete aa : this.aretes)
+				    {
+		    			
+		    			if (aa.getSommetBegin().equals(a.getSommetEnd()))
+				    	{
+		    				out.put(entry.getKey(),entry.getValue());
+				    	}
+				    }
+		    		
+		    		
 		    	}
 		    }
-		    if (i==n)
-		    {
-	    		//System.out.println("YES "+entry.getKey());
-
-		    	out.put(entry.getKey(),entry.getValue());
-		    }
+		    
+			
 		}
 		return out;
 	}

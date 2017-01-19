@@ -17,6 +17,7 @@ public class Sommet {
 	private List<Arete> aretesSortantes;
 	private String argOut;
 	private List<String> argsIn;
+	private List<String> argsOutTache;
 
 	
 	protected Graphe graphe;
@@ -30,6 +31,7 @@ public class Sommet {
 		this.aretesEntrantes = new ArrayList<Arete>();
 		this.aretesSortantes = new ArrayList<Arete>();
 		this.argsIn = new ArrayList<String>();
+		this.argsOutTache = new ArrayList<String>();
 		//System.out.println("Appel Constructeur Sommet()");
 	}
 	
@@ -135,6 +137,15 @@ public class Sommet {
 
 		public void setArgsIn(List<String> argsIn) {
 			this.argsIn = argsIn;
+		}
+		
+		public List<String> getArgsOutTache() {
+			return argsOutTache;
+		}
+
+
+		public void setArgsOutTache(List<String> argsOutTache) {
+			this.argsOutTache = argsOutTache;
 		}
 		
 		public String getSignature()

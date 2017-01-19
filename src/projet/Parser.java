@@ -19,12 +19,14 @@ import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ITypeBinding;
+import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
+import astvisitor.IfStatementVisitor;
 import astvisitor.MethodDeclarationVisitor;
 import astvisitor.MethodInvocationVisitor;
 import astvisitor.VariableDeclarationFragmentVisitor;
@@ -82,8 +84,8 @@ public class Parser {
 		parse.accept(visitor);
 
 		for (MethodDeclaration method : visitor.getMethods()) {
-			System.out.println("Method name: " + method.getName()
-			+ " Return type: " + method.getReturnType2());
+			/*System.out.println("Method name: " + method.getName()
+			+ " Return type: " + method.getReturnType2());*/
 		}
 
 	}
@@ -96,18 +98,20 @@ public class Parser {
 		for (MethodDeclaration method : visitor.getMethods())
 		{
 			Sommet s = new Sommet(className+":"+(method.getName()),g);
+			String entree ="";
 			
 			for (Object param : method.parameters())
 			{
 				SingleVariableDeclaration e = (SingleVariableDeclaration)param;
-					System.out.println("DEBUG");
-					System.out.println(e);
-					System.out.println(e.resolveBinding());
+					//System.out.println("DEBUG");
+					//System.out.println(e);
+					//System.out.println(e.resolveBinding());
 					if (e.getName() != null)
 					{
-						System.out.println("Arg type : "+e.getName());
+						//System.out.println("Arg type : "+e.getName());
 						String arg_in = e.resolveBinding().getType().getName();
 						s.getArgsIn().add(arg_in);
+						s.getArgsOutTache().add(arg_in);
 					}
 					
 			}
@@ -116,6 +120,10 @@ public class Parser {
 			if (method.getReturnType2() != null)
 			{
 				s.setArgOut(method.getReturnType2().toString());
+				if(!s.getArgsOutTache().contains(method.getReturnType2().toString())){
+					s.getArgsOutTache().add(method.getReturnType2().toString());
+				}
+				
 			}
 			else
 			{
@@ -154,20 +162,24 @@ public class Parser {
 				for (Object param : methodInvocation.arguments())
 				{
 						Expression e = (Expression)param;
-						System.out.println("DEBUG");
-						System.out.println(e);
+						//System.out.println("DEBUG");
+						//System.out.println(e);
 						if (e.resolveTypeBinding() != null)
 						{
-							System.out.println("Arg type : "+e.resolveTypeBinding().getName());
+							//System.out.println("Arg type : "+e.resolveTypeBinding().getName());
 							s.getArgsIn().add(e.resolveTypeBinding().getName());
+							s.getArgsOutTache().add(e.resolveTypeBinding().getName());
 						}
 						
 				}
 				
 				if (methodInvocation.resolveTypeBinding() != null)
 				{
-					System.out.println("Arg type : "+methodInvocation.resolveMethodBinding().getName());
+					//System.out.println("Arg type : "+methodInvocation.resolveMethodBinding().getName());
 					s.setArgOut(methodInvocation.resolveTypeBinding().getName());
+					if(!s.getArgsOutTache().contains(methodInvocation.resolveTypeBinding().getName())){
+						s.getArgsOutTache().add(methodInvocation.resolveTypeBinding().getName());
+					}
 				}
 				else
 				{
@@ -180,6 +192,21 @@ public class Parser {
 
 		}
 		return g;
+	}
+	
+	//navigate IfStatement
+	public static void nodeIfStatementInfo(CompilationUnit parse,Graphe g, String className) {
+		IfStatementVisitor visitor = new IfStatementVisitor();
+		parse.accept(visitor);
+
+		for (IfStatement ifStatment : visitor.getifStatements())
+		{
+			
+			System.out.println("ifStatment start: " + ifStatment.getStartPosition()
+			+ " ifStatment " + ifStatment);
+			
+		}
+
 	}
 
 	// navigate variables inside method
@@ -194,10 +221,10 @@ public class Parser {
 
 			for (VariableDeclarationFragment variableDeclarationFragment : visitor2
 					.getVariables()) {
-				System.out.println("variable name: "
+				/*System.out.println("variable name: "
 						+ variableDeclarationFragment.getName()
 						+ " variable Initializer: "
-						+ variableDeclarationFragment.getInitializer());
+						+ variableDeclarationFragment.getInitializer());*/
 			}
 
 		}
@@ -215,9 +242,9 @@ public class Parser {
 
 				for (MethodInvocation methodInvocation : visitor2.getMethods())
 				{
-					System.out.println("method " + method.getName() + " invoc method "
+					/*System.out.println("method " + method.getName() + " invoc method "
 							+ toStringMethdIn(methodInvocation,className));
-					System.out.println(toStringMethdIn(methodInvocation,className));
+					System.out.println(toStringMethdIn(methodInvocation,className));*/
 
 				}
 
@@ -226,18 +253,18 @@ public class Parser {
 
 		public static String toStringMethdIn(MethodInvocation method , String className)
 		{
-			System.out.println(method);
-			System.out.println(method.getExpression());
+			//System.out.println(method);
+			//System.out.println(method.getExpression());
 			String result = "";
 			
 			System.out.println(method.getName()+" ARGS "+method.arguments());
 			for(Object n : method.arguments()){
 				Expression e = (Expression)n;
-				System.out.println("DEBUG");
-				System.out.println(e);
+				//System.out.println("DEBUG");
+				//System.out.println(e);
 				if (e.resolveTypeBinding() != null)
 				{
-					System.out.println("Arg type "+e.resolveTypeBinding().getName());
+					//System.out.println("Arg type "+e.resolveTypeBinding().getName());
 
 				}
 			}
@@ -245,14 +272,14 @@ public class Parser {
 			
 			if ( method.getExpression() == null || method.getExpression().toString().equalsIgnoreCase("this"))
 			{
-				System.out.println("this");
+				//System.out.println("this");
 				result = className +":"+method.getName();
 			}
 			else
 			{
 				ITypeBinding typeBinding = method.getExpression().resolveTypeBinding();
                 if (typeBinding != null) {
-                    System.out.println("Type: " + typeBinding.getName());
+                    //System.out.println("Type: " + typeBinding.getName());
                 	result = typeBinding.getName()+":"+method.getName();
                 }
                 else
@@ -269,10 +296,10 @@ public class Parser {
 
 		public static String toStringMethdIn(MethodDeclaration method , String className)
 		{
-			System.out.println(method);
+			//System.out.println(method);
 			String result = "";
 			result = className +":"+method.getName();
-			System.out.println(result);
+			//System.out.println(result);
 			return result;
 
 		}
@@ -284,8 +311,8 @@ public class Parser {
 			Map<String ,Sommet> sommets = g.getSommets();
 			for (MethodDeclaration method : visitor1.getMethods()) {
 				
-				System.out.println(method.getName()+" ARGS "+method.parameters());
-				System.out.println(method.getName()+" RETURN "+method.getReturnType2());
+				//System.out.println(method.getName()+" ARGS "+method.parameters());
+				//System.out.println(method.getName()+" RETURN "+method.getReturnType2());
 
 				MethodInvocationVisitor visitor2 = new MethodInvocationVisitor();
 				method.accept(visitor2);
@@ -295,8 +322,8 @@ public class Parser {
 				 */
 				for (MethodInvocation methodInvocation : visitor2.getMethods()) {
 
-					System.out.println("method " + toStringMethdIn(method,className) + " invoc method "
-							+ toStringMethdIn(methodInvocation,className));
+					//System.out.println("method " + toStringMethdIn(method,className) + " invoc method "
+					//		+ toStringMethdIn(methodInvocation,className));
 
 					Sommet sommetBegin = sommets.get(toStringMethdIn(method,className));
 					Sommet sommetEnd = sommets.get(toStringMethdIn(methodInvocation,className));
