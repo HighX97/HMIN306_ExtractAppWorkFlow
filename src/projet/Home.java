@@ -115,19 +115,27 @@ public class Home {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		//frame.setBounds(100, 100, 450, 300);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setUndecorated(true);
+		frame.setBounds(100, 100, 800, 600);
+		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setUndecorated(false);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+
+		JPanel panel_1 = new JPanel();
+		frame.getContentPane().add(panel_1, BorderLayout.NORTH);
+
+        FrameDragListener frameDragListener = new FrameDragListener(frame);
+        frame.addMouseListener(frameDragListener);
+        frame.addMouseMotionListener(frameDragListener);
 
 		JLabel lblHihhh = new JLabel("HMIN306 WorkFlow Extraction");
+		panel_1.add(lblHihhh);
 		lblHihhh.setLabelFor(frame);
 		lblHihhh.setBackground(new Color(255, 204, 153));
 		lblHihhh.setForeground(new Color(0, 102, 102));
 		lblHihhh.setFont(new Font("Century Schoolbook L", Font.BOLD | Font.ITALIC, 20));
 		lblHihhh.setHorizontalAlignment(SwingConstants.CENTER);
-		frame.getContentPane().add(lblHihhh, BorderLayout.NORTH);
 
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
@@ -180,41 +188,50 @@ public class Home {
 			public void actionPerformed(ActionEvent e)
 			{
 
+				OpenFile of = new OpenFile();
+				of.chooseFolder();
+				textField.setText(of.sb.toString());
+				String projectSourcePath  = of.sb.toString();
+				// read java files
+				final File folder = new File(projectSourcePath);
+
 
 			     // Create the buffered image
 	if (grapheInvocation != null)
 	{
 		VisualizationImageServer<String, String> vs = null;
 
+		Dimension dim =new Dimension(200+10*grapheInvocation.getSommets().size(), 200+10*grapheInvocation.getSommets().size());
+
 			if (((String) graphLayout.getSelectedItem()).equalsIgnoreCase("CircleLayout"))
 			{
 				vs = new VisualizationImageServer<String, String>(new CircleLayout<String, String>(generateGraph()),
-									new Dimension(4000, 4000));
+									dim);
 			}
 			else if (((String) graphLayout.getSelectedItem()).equalsIgnoreCase("DAGLayout"))
 			{
 
 				vs = new VisualizationImageServer<String, String>(new DAGLayout<String, String>(generateGraph()),
-									new Dimension(4000, 4000));
+									dim);
 			}
 			else if (((String) graphLayout.getSelectedItem()).equalsIgnoreCase("FRLayout2"))
 			{
 
 				vs = new VisualizationImageServer<String, String>(new FRLayout2<String, String>(generateGraph()),
-									new Dimension(4000, 4000));
+									dim);
 			}
 			else if (((String) graphLayout.getSelectedItem()).equalsIgnoreCase("KKLayout"))
 			{
 
 				vs = new VisualizationImageServer<String, String>(new KKLayout<String, String>(generateGraph()),
-									new Dimension(4000, 4000));
+									dim);
 			}
 			else if (((String) graphLayout.getSelectedItem()).equalsIgnoreCase("SpringLayout2"))
 			{
 				vs = new VisualizationImageServer<String, String>(new SpringLayout2<String, String>(generateGraph()),
-									new Dimension(4000, 4000));
+									dim);
 			}
-			
+
 		    //Noeuds
 			vs.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
 		    //Noeuds Position
@@ -234,8 +251,8 @@ public class Home {
 
 			      // Write image to a png file
 
-			      File outputfile = new File("graph.png");
-
+			      File outputfile = new File(projectSourcePath+"/graph.png");
+			      System.out.println(outputfile.getAbsolutePath());
 
 			      System.out.println(outputfile.getAbsolutePath());
 			      try {
@@ -254,6 +271,9 @@ public class Home {
 
 			      }
 
+			        JOptionPane.showMessageDialog(null, outputfile.getAbsolutePath()+" save with success", "InfoBox: " + "", JOptionPane.INFORMATION_MESSAGE);
+
+
 	}
 			}
 		});
@@ -264,8 +284,9 @@ public class Home {
 
 		graphLayout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("ComboBox");
-				System.out.println(e);
+
+
+
 
 				JComboBox cb = (JComboBox)e.getSource();
 		        String petName = (String)cb.getSelectedItem();
