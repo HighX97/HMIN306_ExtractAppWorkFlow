@@ -31,6 +31,7 @@ import javax.swing.GroupLayout.Alignment;
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
+import projet.FrameDragListener;
 import projet.OpenFile;
 import projet.Parser;
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
@@ -78,6 +79,9 @@ import javax.swing.JComboBox;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 public class Home {
 
 	private JFrame frame;
@@ -86,6 +90,7 @@ public class Home {
 	Graphe grapheInvocation = null;
 	Dimension preferredGraphSize=new Dimension(1360,798);
 	VisualizationViewer<String, String> vv3 = null;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -155,6 +160,44 @@ public class Home {
 		JPanel output_graph_panel = new JPanel();
 		tabbedPane.addTab("Invocation Graph", null, output_graph_panel, null);
 		output_graph_panel.setLayout(new BorderLayout(0, 0));
+		
+		
+		JPanel output_tache = new JPanel();
+		tabbedPane.addTab("TÃ¢ches", null, output_tache, null);
+
+
+		//Tableau
+		
+		
+		String[] columnNames = {"TÃ¢che",
+                "Type",
+                "args_in",
+                "args_out"};
+
+		Object[][] data = {
+			    {"Kathy", "Smith",
+			     "Snowboarding", new Integer(5)},
+			    {"John", "Doe",
+			     "Rowing", new Integer(3)},
+			    {"Sue", "Black",
+			     "Knitting", new Integer(2)},
+			    {"Jane", "White",
+			     "Speed reading", new Integer(20)},
+			    {"Joe", "Brown",
+			     "Pool", new Integer(10)}
+			};
+		
+		DefaultTableModel model = new DefaultTableModel(data, columnNames);
+				output_tache.setLayout(new BorderLayout(0, 0));
+		
+				table = new JTable(model);
+				output_tache.add(table);
+		
+		JScrollPane scrollPane = new JScrollPane(table,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		table.setFillsViewportHeight(true);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
+		output_tache.add(scrollPane);
 
 
 		//Selected Graph Mode
@@ -455,32 +498,46 @@ public class Home {
 					//print method invocations
 					//Parser.printMethodInvocationInfo(parse);
 					grapheInvocation = Parser.areteMethodInvocationInfo(parse, grapheInvocation , className);
-					
-					
-				
+
+
+
 				}
 
 				System.out.println("Sommets "+grapheInvocation.getSommets());
+			    DefaultTableModel model = (DefaultTableModel) table.getModel();
+			    
+			    //Suprression lignes tableau
+			    int rowCount = model.getRowCount();
+			    //Remove rows one by one from the end of the table
+			    for (int i = rowCount - 1; i >= 0; i--) {
+			    	model.removeRow(i);
+			    }
+
 				System.out.println("Aretes "+grapheInvocation.getAretes());
 				System.out.println("Taches :"+grapheInvocation.getTaches());
 				System.out.println("Liste des taches primitives");
+				
+				 //Insertion lignes tableau
 				for (Map.Entry<String, Sommet> entry : grapheInvocation.getTaches().entrySet())
 				{
-					
-					System.out.println(" Tache :"+entry.getKey()+" Entrées"+entry.getValue().getArgsIn()+" Sorties "+entry.getValue().getArgsOutTache());
-					
+
+					System.out.println(" Tache :"+entry.getKey()+" Entrï¿½es"+entry.getValue().getArgsIn()+" Sorties "+entry.getValue().getArgsOutTache());
+				    model.addRow(new Object[]{entry.getKey(), "Primitive", entry.getValue().getArgsIn(), entry.getValue().getArgOut()});
 				}
 				System.out.println("Liste des taches composites");
 				for (Map.Entry<String, Sommet> entry : grapheInvocation.getTachesComposites().entrySet())
 				{
-					
-					System.out.println(" Tache composite:"+entry.getKey()+" Entrées"+entry.getValue().getArgsIn()+" Sorties "+entry.getValue().getArgsOutTache());
+
+					System.out.println(" Tache composite:"+entry.getKey()+" Entrï¿½es"+entry.getValue().getArgsIn()+" Sorties "+entry.getValue().getArgsOutTache());
+				    model.addRow(new Object[]{entry.getKey(), "Composite", entry.getValue().getArgsIn(), entry.getValue().getArgOut()});
+
 				}
 				//System.out.println("Points d'entrÃ©es :"+grapheInvocation.getPointEntree());
-				System.out.println("Points d'entrées");
+				System.out.println("Points d'entrï¿½es");
 				for (Map.Entry<String, Sommet> entry : grapheInvocation.getPointEntree().entrySet())
 				{
 					System.out.println(" PE :"+entry.getKey());
+				    model.addRow(new Object[]{entry.getKey(), "Point EntrÃ©e", entry.getValue().getArgsIn(), entry.getValue().getArgOut()});
 					//System.out.println("Parents : "+entry.getValue().getParents());
 					//System.out.println("Childs : "+entry.getValue().getChilds());
 				}
@@ -536,6 +593,12 @@ public class Home {
 			    frame.pack();
 			    frame.setVisible(true);
 			    tabbedPane.setSelectedIndex(1);
+			    
+
+			    
+			
+
+						
 			}
 
 
@@ -543,6 +606,8 @@ public class Home {
 		input_panel.add(btnNewButton);
 
 		
+
+
 
 	}
 
@@ -564,6 +629,6 @@ public class Home {
 			}
 			return g;
 	}
-	
-	
+
+
 }
